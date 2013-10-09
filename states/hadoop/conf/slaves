@@ -1,0 +1,6 @@
+localhost
+{% for host, hostinfo in salt['mine.get']('*', 'network.interfaces').items() %}
+[{{ host }}]
+    address {{ hostinfo['eth0']['inet'][0]['address'] if hostinfo['eth0'].has_key('inet') else hostinfo['br0']['inet'][0]['address'] }}
+    use_node_name yes
+{% endfor %}
