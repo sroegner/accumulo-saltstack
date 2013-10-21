@@ -10,3 +10,9 @@ base:
     - sudoers
     - ssh
     - ntp
+  'roles:accumulo':
+    - match: grain
+    - sun-java
+    - zookeeper
+    - hadoop
+    - accumulo
