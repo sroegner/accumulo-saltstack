@@ -12,12 +12,6 @@
     - mode: 755
     - makedirs: True
 
-{{ hadoop_base_dir }}:
-  file.directory:
-    - user: hadoop
-    - group: hadoop
-    - mode: 755
-
 hadoop:
   user.present:
     - fullname: Hadoop User 
@@ -25,6 +19,14 @@ hadoop:
     - home: {{ hadoop_base_dir }}
     - groups:
       - {{ pillar['sudoer-group'] }} 
+
+{{ hadoop_base_dir }}:
+  file.directory:
+    - user: hadoop
+    - group: hadoop
+    - mode: 755
+    - require:
+      - user: hadoop
 
 {% for dir_path in [ "name", "namesecondary", "data", "tmp" ] %}
 {{ hadoop_data_dir }}/{{ dir_path }}:
@@ -69,7 +71,7 @@ hadoop:
         - 'fs.epoll.max_user_instances = 4096'
         - 'vm.swappiness = 8'
 
-format namenode:
+format-namenode:
   cmd.run: 
     - name: yes Y | bin/hadoop namenode -format |tee {{ hadoop_data_dir }}/name/.formated
     - cwd: {{ hadoop_home }}
@@ -96,12 +98,14 @@ format namenode:
 hadoop-datanode:
   service.running:
     - require:
-      - file: /etc/init/hadoop-namenode.conf
-    - order: last
+      - file: /etc/init/hadoop-datanode.conf
+      - service.running: zookeeper
+      - cmd: format-namenode
 
 hadoop-namenode:
   service.running:
     - require:
       - file: /etc/init/hadoop-namenode.conf
-    - order: last
+      - service.running: zookeeper
+      - cmd: format-namenode
 

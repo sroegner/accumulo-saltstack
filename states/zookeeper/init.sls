@@ -8,6 +8,7 @@
     - user: root
     - group: root
     - mode: 755
+    - makedirs: true
 
 {{ zookeeper_tgz_path }}:
   file.managed:
@@ -20,7 +21,7 @@
   cmd.run:
     - require: 
       - file.managed: {{ zookeeper_tgz_path }}
-    - name: tar zxvf {{ zookeeper_tgz_path }} -C {{ zookeeper_dir }}
+    - name: tar zxf {{ zookeeper_tgz_path }} -C {{ zookeeper_dir }}
     - unless: test -d {{ zookeeper_dir }}/zookeeper-{{ zookeeper_version }}
     - require_in: 
       - file.managed: {{ pillar['ZOOKEEPER_HOME'] }}/conf/zoo.cfg
@@ -58,8 +59,4 @@
     - template: jinja
 
 zookeeper:
-  service.running:
-    - require:
-      - file: /etc/init/zookeeper.conf
-    - order: last
-
+  service.running
