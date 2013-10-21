@@ -8,6 +8,7 @@
     - user: root
     - group: root
     - mode: 755
+    - makedirs: true
 
 {{ java_tgz_path }}:
   file.managed:
