@@ -1,26 +1,34 @@
-/downloads/apache/accumulo/accumulo-1.5.0-bin.tar.gz:
+{% set accumulo_home = pillar['ACCUMULO_HOME'] %}
+{% set accumulo_dir = "/downloads/apache/accumulo/" %}
+{% set accumulo_version = "1.5.0" %}
+{% set accumulo_tgz = "accumulo-" + accumulo_version + "-bin.tar.gz" %}
+{% set accumulo_tgz_path = accumulo_dir + accumulo_tgz %}
+
+{{ accumulo_tgz_path }}:
   file.managed:
-    - source: salt://accumulo/accumulo-1.5.0-bin.tar.gz
+    - source: salt://accumulo/{{ accumulo_tgz }}
     - user: root
     - group: root
     - mode: 644  
-    - order: 1
-
-install accumulo:
   cmd.run:
-    - name: cd /downloads/apache/accumulo/; tar zxvf *.gz > /downloads/apache/accumulo/.installed
-    - unless: stat /downloads/apache/accumulo/.installed
-    - order: 2
+    - name: tar xfz {{ accumulo_tgz_path }} -C {{ accumulo_dir }}
+    - unless: test -d {{ accumulo_home }}/bin
+    - require:
+      - file: {{ accumulo_tgz_path }}
 
-increase file max:
-  cmd.run:
-    - name: sysctl fs.file-max=65536
+/etc/sysctl.d/accumulo.conf:
+  file.managed:
+    - source: salt://accumulo/sysctl.conf
+    - user: root
+    - group: root
+    - mode: 644
     
 {{ pillar['ACCUMULO_HOME'] }}/conf:
   file.recurse:
     - source: salt://accumulo/conf
     - include_empty: True
-    - file_mode: 744
+    - file_mode: 644
+    - dir_mode: 755
     - order: 3
     - template: jinja
 
@@ -28,26 +36,51 @@ increase file max:
   file.recurse:
     - source: salt://accumulo/proxy
     - include_empty: True
-    - file_mode: 744
+    - file_mode: 644
+    - dir_mode: 755
     - order: 3
     - template: jinja
 
-
-initialize accumulo instance:
+accumulo-init:
   cmd.run:
-    - name: {{ pillar['ACCUMULO_HOME'] }}/bin/accumulo init --instance-name {{ pillar['instance-name']}} --password {{ pillar['instance-password'] }}
+    - name: {{ pillar['ACCUMULO_HOME'] }}/bin/accumulo init --instance-name {{ pillar['instance-name']}} --password {{ pillar['instance-password'] }} && touch {{ accumulo_home }}/.initialized
+    - unless: test -f {{ accumulo_home }}/.initialized
+    - require:
+      - file: {{ pillar['ACCUMULO_HOME'] }}/conf
+      - file: {{ pillar['ACCUMULO_HOME'] }}/proxy
+      - cmd: {{ accumulo_tgz_path }}
 
-start accumulo:
-  cmd.run:
-   - name: {{ pillar['ACCUMULO_HOME'] }}/bin/start-all.sh
-   - env:
-      JAVA_HOME: {{ pillar['JAVA_HOME'] }}
-      ZOOKEEPER_HOME: {{ pillar['ZOOKEEPER_HOME'] }}
-      HADOOP_HOME: {{ pillar['HADOOP_HOME'] }}
-      ACCUMULO_HOME: {{ pillar['ACCUMULO_HOME'] }}
-   - unless: true 
+/etc/init/accumulo.conf:
+  file.managed:
+    - source: salt://accumulo/accumulo-upstart.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+    - require:
+      - cmd: accumulo-init
 
-start proxy:
-  cmd.run:
-   - name: {{ pillar['ACCUMULO_HOME'] }}/bin/accumulo proxy -p proxy/proxy.properties &   
-   - unless: true
+/etc/init/accumulo-proxy.conf:
+  file.managed:
+    - source: salt://accumulo/accumulo-proxy-upstart.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+    - require:
+      - cmd: accumulo-init
+
+accumulo:
+  service.running:
+    - require:
+      - file: /etc/init/accumulo.conf
+      - service.running: hadoop-datanode
+      - service.running: hadoop-namenode
+
+accumulo-proxy:
+  service.running:
+    - require:
+      - file: /etc/init/accumulo-proxy.conf
+      - service.running: hadoop-datanode
+      - service.running: hadoop-namenode
+
