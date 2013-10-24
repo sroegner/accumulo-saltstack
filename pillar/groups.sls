@@ -1,7 +1,7 @@
 {% if grains['os'] == 'RedHat' %}
 sudoer-group: wheel 
 {% elif grains['os'] == 'Ubuntu' %}
-sudoer-group: sudoer 
+sudoer-group: sudo 
 {% elif grains['os'] == 'Amazon' %}
 sudoer-group: wheel 
 {% endif %}

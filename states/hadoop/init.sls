@@ -1,34 +1,35 @@
+{% set hadoop_version = "1.0.4" %}
+{% set hadoop_base_dir = "/downloads/apache/hadoop/" %}
+{% set hadoop_home = "/downloads/apache/hadoop/hadoop-" + hadoop_version %}
+{% set hadoop_data_dir = "/data/hadoop/" %}
+{% set hadoop_tgz = "hadoop-" + hadoop_version + ".tar.gz" %}
+{% set hadoop_tgz_path = hadoop_base_dir + hadoop_tgz %}
+
+/downloads/apache:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 755
+    - makedirs: True
+
 hadoop:
   user.present:
     - fullname: Hadoop User 
     - shell: /bin/bash
-    - home: /downloads/apache/hadoop
+    - home: {{ hadoop_base_dir }}
     - groups:
       - {{ pillar['sudoer-group'] }} 
 
-/data/hadoop/name:
+{{ hadoop_base_dir }}:
   file.directory:
-    - user: hadoop 
-    - group: hadoop 
-    - mode: 744
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
+    - user: hadoop
+    - group: hadoop
+    - mode: 755
+    - require:
+      - user: hadoop
 
-/data/hadoop/namesecondary:
-  file.directory:
-    - user: hadoop 
-    - group: hadoop 
-    - mode: 744
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/data/hadoop/data:
+{% for dir_path in [ "name", "namesecondary", "data", "tmp" ] %}
+{{ hadoop_data_dir }}/{{ dir_path }}:
   file.directory:
     - user: hadoop 
     - group: hadoop 
@@ -38,36 +39,25 @@ hadoop:
       - user
       - group
       - mode
+{% endfor %}
 
-/data/hadoop/tmp:
-  file.directory:
-    - user: hadoop 
-    - group: hadoop 
-    - mode: 744
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/downloads/apache/hadoop/hadoop-1.0.4.tar.gz:
+{{ hadoop_tgz_path }}:
   file.managed:
-    - source: salt://hadoop/hadoop-1.0.4.tar.gz
+    - source: salt://hadoop/{{ hadoop_tgz }}
     - user: root
     - group: root
     - mode: 644  
-    - order: 1
   cmd.run:
-    - name: cd /downloads/apache/hadoop/; tar zxvf *.gz > /downloads/apache/hadoop/hadoop-1.0.4/.installed
-    - unless: stat /downloads/apache/hadoop/hadoop-1.0.4/.installed
-    - order: 1
+    - name: tar xfz {{ hadoop_tgz_path }} -C {{ hadoop_base_dir }}
+    - unless: test -d {{ hadoop_home }}
+    - require:
+      - file: {{ hadoop_tgz_path }}
 
-/downloads/apache/hadoop/hadoop-1.0.4/conf:
+{{ hadoop_home }}/conf:
   file.recurse:
     - source: salt://hadoop/conf
     - include_empty: True
     - file_mode: 744
-
 
 /etc/security/limits.conf:
     file.append:
@@ -81,21 +71,41 @@ hadoop:
         - 'fs.epoll.max_user_instances = 4096'
         - 'vm.swappiness = 8'
 
-format namenode:
+format-namenode:
   cmd.run: 
-    - name: yes Y | bin/hadoop namenode -format |tee /data/hadoop/name/.formated
-    - cwd: {{ pillar['HADOOP_HOME'] }}
-    - unless: stat /data/hadoop/name/.formated
+    - name: yes Y | bin/hadoop namenode -format |tee {{ hadoop_data_dir }}/name/.formated
+    - cwd: {{ hadoop_home }}
+    - unless: stat {{ hadoop_data_dir }}/name/.formated
+    - require:
+      - cmd: {{ hadoop_tgz_path }}
 
-run namenode:
-  cmd.run: 
-    - cwd: {{ pillar['HADOOP_HOME'] }}
-    - name: bin/hadoop-daemon.sh start namenode
-    - unless: {{ pillar['JAVA_HOME'] }}/bin/jps |grep NameNode
+/etc/init/hadoop-datanode.conf:
+  file.managed:
+    - source: salt://hadoop/hadoop-datanode-upstart.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
 
-run datanode:
-  cmd.run: 
-    - cwd: {{ pillar['HADOOP_HOME'] }}
-    - name: bin/hadoop-daemon.sh start datanode 
-    - unless: {{ pillar['JAVA_HOME'] }}/bin/jps |grep DataNode
+/etc/init/hadoop-namenode.conf:
+  file.managed:
+    - source: salt://hadoop/hadoop-namenode-upstart.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+
+hadoop-datanode:
+  service.running:
+    - require:
+      - file: /etc/init/hadoop-datanode.conf
+      - service.running: zookeeper
+      - cmd: format-namenode
+
+hadoop-namenode:
+  service.running:
+    - require:
+      - file: /etc/init/hadoop-namenode.conf
+      - service.running: zookeeper
+      - cmd: format-namenode
 
