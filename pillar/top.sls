@@ -4,4 +4,5 @@ base:
     - paths
     - secret
     - common
+    - hadoop
     - zookeeper

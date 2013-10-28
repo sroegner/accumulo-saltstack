@@ -1,5 +1,5 @@
 {% set hadoop_version = pillar['hadoop_version'] %}
-{% set hadoop_version_name = 'hadoop' + hadoop_version %}
+{% set hadoop_version_name = 'hadoop' + '-' + hadoop_version %}
 {% set hadoop_tgz       = hadoop_version_name + '.tar.gz' %}
 {% set hadoop_tgz_path  = '/downloads/' + hadoop_tgz %}
 {% set hadoop_alt_home  = '/usr/lib/hadoop' %}
@@ -8,7 +8,7 @@
 {{ hadoop_tgz_path }}:
   file.managed:
     - source: http://sroegner-install.s3.amazonaws.com/{{ hadoop_tgz }}
-    - source_hash: md5=bedb18412b3d5f7227ad19b6714dd6e0
+    - source_hash: md5=25f27eb0b5617e47c032319c0bfd9962
 
 install-hadoop-dist:
   cmd.run:
@@ -25,7 +25,7 @@ install-hadoop-dist:
     - require:
       - cmd.run: install-hadoop-dist
 
-rename-dist-conf:
+rename-hadoop-dist-conf:
   cmd.run:
     - name: mv {{ hadoop_real_home }}/etc/hadoop {{ hadoop_real_home }}/etc/hadoop.backup
     - unless: test -L {{ hadoop_real_home }}/etc/hadoop
@@ -34,5 +34,5 @@ rename-dist-conf:
   file.symlink:
     - target: {{ pillar.get('hadoop_conf') }}
     - require:
-      - cmd: rename-dist-conf
+      - cmd: rename-hadoop-dist-conf
 

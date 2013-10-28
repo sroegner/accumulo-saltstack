@@ -2,9 +2,19 @@ base:
   '*':
     - misc.prereqs
     - sun-java
-    - hadoop.prereqs
+    - zookeeper
+    - hadoop
 
   'roles:zookeeper':
     - match: grain
-    - zookeeper
     - zookeeper.start
+
+  'roles:datanode':
+    - match: grain
+    - hadoop.hdfs.datanode
+
+  'roles:namenode':
+    - match: grain
+    - hadoop.hdfs.namenode
+    - hadoop.hdfs.format
+

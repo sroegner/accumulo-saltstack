@@ -58,20 +58,6 @@ install-zookeeper-dist:
     - require:
       - cmd.run: install-zookeeper-dist
 
-{{ zookeeper_conf }}/configuration.xsl:
-  file.copy:
-    - source: {{ zookeeper_real_home }}/conf.backup/configuration.xsl
-    - user: root
-    - group: root
-    - mode: 644
-
-{{ zookeeper_conf }}/log4j.properties:
-  file.copy:
-    - source: {{ zookeeper_real_home }}/conf.backup/log4j.properties
-    - user: root
-    - group: root
-    - mode: 644
-
 {{ zookeeper_conf }}/zoo.cfg:
   file.managed:
     - source: salt://zookeeper/zoo.cfg
@@ -87,13 +73,28 @@ install-zookeeper-dist:
     - group: root
     - mode: 755
 
-rename-dist-conf:
+rename-zookeeper-dist-conf:
   cmd.run:
     - name: mv {{ zookeeper_real_home }}/conf {{ zookeeper_real_home }}/conf.backup
     - unless: test -L {{ zookeeper_real_home }}/conf
+
+{{ zookeeper_conf }}/configuration.xsl:
+  file.copy:
+    - source: {{ zookeeper_real_home }}/conf.backup/configuration.xsl
+    - user: root
+    - group: root
+    - mode: 644
+
+{{ zookeeper_conf }}/log4j.properties:
+  file.copy:
+    - source: {{ zookeeper_real_home }}/conf.backup/log4j.properties
+    - user: root
+    - group: root
+    - mode: 644
+
 
 {{ zookeeper_real_home }}/conf:
   file.symlink:
     - target: {{ zookeeper_conf }}
     - require:
-      - cmd: rename-dist-conf
+      - cmd: rename-zookeeper-dist-conf
