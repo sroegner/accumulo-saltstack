@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+{% set namenode_host = salt['mine.get']('roles:namenode', 'network.interfaces', 'grain').keys()|first() -%}
+
+<configuration>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>{{ pillar.get('hdfs_nn_directories')|join(',') }}</value>
+        <final>true</final>
+    </property>
+
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>{{ pillar.get('hdfs_dn_directories')|join(',') }}</value>
+        <final>true</final>
+    </property>
+
+    <property>
+        <name>dfs.namenode.http-address</name>
+        <value>{{ namenode_host }}:{{ pillar.get('namenode_http_port') }}</value>
+        <final>true</final>
+    </property>
+
+    <property>
+        <name>dfs.namenode.secondary.http-address</name>
+        <value>{{ namenode_host }}:{{ pillar.get('secondarynamenode_http_port') }}</value>
+        <final>true</final>
+    </property>
+
+{% if pillar.get('hadoopconf-hdfs-site') %}
+{% for name, dict in pillar.get('hadoopconf-hdfs-site').items() %}
+    <property>
+        <name>{{ name }}</name>
+        {% for key, value in dict.iteritems() %}<{{ key }}>{{ value }}</{{key}}>{% endfor %}
+    </property>
+{% endfor -%}
+{% endif -%}
+
+</configuration>

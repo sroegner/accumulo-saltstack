@@ -1,0 +1,34 @@
+export JAVA_HOME={{ pillar.get('java_home') }}
+export HADOOP_PREFIX={{ pillar.get('hadoop_home') }}
+export HADOOP_HOME={{ pillar.get('hadoop_home') }}
+export HADOOP_CONF_DIR={{ pillar.get('hadoop_conf') }}
+export PATH=$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin:${JAVA_HOME}/bin:$PATH
+
+export HADOOP_HEAPSIZE=1024
+export HADOOP_NAMENODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_NAMENODE_OPTS"
+export HADOOP_SECONDARYNAMENODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_SECONDARYNAMENODE_OPTS"
+export HADOOP_DATANODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_DATANODE_OPTS"
+export HADOOP_BALANCER_OPTS="-Dcom.sun.management.jmxremote $HADOOP_BALANCER_OPTS"
+export HADOOP_JOBTRACKER_OPTS="-Dcom.sun.management.jmxremote $HADOOP_JOBTRACKER_OPTS"
+
+
+{% set logs = salt['pillar.get']('common_directories:logs') %}
+{% set pids = salt['pillar.get']('common_directories:pids') %}
+{% set hdfs_user = salt['pillar.get']('users:hadoop:hdfs:name') %}
+{% set mapred_user = salt['pillar.get']('users:hadoop:mapred:name') %}
+{% set yarn_user = salt['pillar.get']('users:hadoop:yarn:name') %}
+
+export HADOOP_USER=hadoop
+export HDFS_USER={{ hdfs_user }}
+export MAPRED_USER={{ mapred_user }}
+export YARN_USER={{ yarn_user }}
+
+export HADOOP_LOG_DIR={{ logs }}/hadoop
+export HDFS_LOG_DIR={{ logs }}/hadoop/{{ hdfs_user }}
+export MAPRED_LOG_DIR={{ logs }}/hadoop/{{ mapred_user }}
+export YARN_LOG_DIR={{ logs }}/hadoop/{{ yarn_user }}
+
+export HADOOP_PID_DIR={{ pids }}/hadoop
+export HDFS_PID_DIR={{ pids }}/hadoop/{{ hdfs_user }}
+export MAPRED_PID_DIR={{ pids }}/hadoop/{{ mapred_user }}
+export YARN_PID_DIR={{ pids }}/hadoop/{{ yarn_user }}
