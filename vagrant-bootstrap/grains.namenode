@@ -8,8 +8,7 @@ roles:
   - secondarynamenode
   - jobtracker
   - resourcemanager
-
-accumulo_roles:
-  - master
-  - monitor
-  - gc
+  - zookeeper
+  - accumulo-master
+  - accumulo-monitor
+  - accumulo-gc

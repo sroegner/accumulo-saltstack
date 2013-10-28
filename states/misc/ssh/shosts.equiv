@@ -1,0 +1,3 @@
+{% for host, hostinfo in salt['mine.get']('*', 'network.interfaces').items() -%}
+{{host}}
+{% endfor -%}

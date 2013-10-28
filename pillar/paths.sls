@@ -1,4 +1,5 @@
-JAVA_HOME: /downloads/java/jdk1.7.0_09
-ACCUMULO_HOME: /downloads/apache/accumulo/accumulo-1.5.0
-ZOOKEEPER_HOME: /downloads/apache/zookeeper/zookeeper-3.4.5
-HADOOP_HOME: /downloads/apache/hadoop/hadoop-1.0.4
+JAVA_HOME: {{ grains.get('java_home', '/usr/java/default') }}
+HADOOP_HOME: {{ grains.get('hadoop_home', '/usr/lib/hadoop') }}
+ZOOKEEPER_HOME: {{ grains.get('zookeeper_home', '/usr/lib/zookeeper') }}
+ACCUMULO_HOME: {{ grains.get('accumulo_home', '/usr/lib/accumulo') }}
+

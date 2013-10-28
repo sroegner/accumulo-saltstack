@@ -2,5 +2,6 @@ base:
   '*':
     - mine
     - paths
-    - groups 
     - secret
+    - common
+    - zookeeper

@@ -7,8 +7,6 @@ roles:
   - datanode
   - tasktracker
   - nodemanager
-
-accumulo_roles:
-  - tserver
-  - tracer
+  - accumulo-tserver
+  - accumulo-tracer
 

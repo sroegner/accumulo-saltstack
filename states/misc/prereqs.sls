@@ -3,43 +3,37 @@
   file.append:
     - text:
       - alias high='salt '*' state.highstate'
-
-{% if grains.get('os') == "CentOS" -%}
-/etc/yum.conf:
-  file.managed:
-    - source: salt://files/etc/yum.conf
-{%  endif -%}
 {%  endif -%}
 
 
 {% if grains.get('os_family') == "RedHat" -%}
 /etc/ssh/shosts.equiv:
   file.managed:
-    - source: salt://files/etc/ssh/shosts.equiv
+    - source: salt://misc/ssh/shosts.equiv
     - template: jinja
 
 /etc/ssh/ssh_config:
   file.managed:
-    - source: salt://files/etc/ssh/ssh_config
+    - source: salt://misc/ssh/ssh_config
     - template: jinja
 
 /etc/ssh/sshd_config:
   file.managed:
-    - source: salt://files/etc/ssh/sshd_config
+    - source: salt://misc/ssh/sshd_config
     - template: jinja
 
 /etc/ssh/ssh_host_rsa_key:
   file.managed:
-    - source: salt://files/etc/ssh/ssh_host_rsa_key
+    - source: salt://misc/ssh/ssh_host_rsa_key
     - mode: '0600'
 
 /etc/ssh/ssh_host_rsa_key.pub:
   file.managed:
-    - source: salt://files/etc/ssh/ssh_host_rsa_key.pub
+    - source: salt://misc/ssh/ssh_host_rsa_key.pub
 
 /etc/ssh/ssh_known_hosts:
   file.managed:
-    - source: salt://files/etc/ssh/ssh_known_hosts
+    - source: salt://misc/ssh/ssh_known_hosts
     - template: jinja
 
 sshd:
@@ -59,8 +53,12 @@ vm.swappiness:
     - present
     - value: 10
 
-vm.overcommit_memory
+vm.overcommit_memory:
   sysctl:
     - present
     - value: 0
 
+fs.epoll.max_user_instances:
+  sysctl:
+    - present
+    - value: 4096

@@ -2,5 +2,6 @@ master: namenode.accumulo.local
 mine_functions:
   network.interfaces: []
   test.ping: []
+  grains.items: []
 
-mine_interval: 5
+mine_interval: 2
