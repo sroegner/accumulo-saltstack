@@ -1,0 +1,14 @@
+data_disks:
+  - /data1
+  - /data2
+  - /data3
+
+roles:
+  - datanode
+  - tasktracker
+  - nodemanager
+
+accumulo_roles:
+  - tserver
+  - tracer
+

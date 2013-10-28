@@ -1,0 +1,6 @@
+master: namenode.accumulo.local
+mine_functions:
+  network.interfaces: []
+  test.ping: []
+
+mine_interval: 5

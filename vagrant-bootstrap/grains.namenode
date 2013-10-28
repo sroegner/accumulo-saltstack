@@ -1,0 +1,15 @@
+data_disks:
+  - /data1
+  - /data2
+  - /data3
+
+roles:
+  - namenode
+  - secondarynamenode
+  - jobtracker
+  - resourcemanager
+
+accumulo_roles:
+  - master
+  - monitor
+  - gc
