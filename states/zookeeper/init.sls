@@ -58,6 +58,10 @@ install-zookeeper-dist:
     - require:
       - cmd.run: install-zookeeper-dist
 
+fix-zookeeper-dist-owner:
+  cmd.run:
+    - name: chown -R root.root {{ zookeeper_real_home }}
+
 {{ zookeeper_conf }}/zoo.cfg:
   file.managed:
     - source: salt://zookeeper/zoo.cfg

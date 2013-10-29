@@ -1,5 +1,4 @@
 include:
   - hadoop.prereqs
-  - hadoop.asf2
+  - hadoop.install
   - hadoop.config
-

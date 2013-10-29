@@ -1,3 +1,6 @@
+include:
+  - hadoop.prereqs
+
 {% for dir in pillar['hdfs_nn_directories'] %}
 {{ dir }}:
   file.directory:

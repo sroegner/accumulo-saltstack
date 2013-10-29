@@ -1,3 +1,8 @@
+include:
+  - hadoop.prereqs
+  - hadoop.install
+  - hadoop.config
+
 # TODO: make this work with hadoop 1
 format-namenode:
   cmd.run:

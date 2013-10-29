@@ -16,6 +16,14 @@ conf-dirs:
     - require:
       - file.directory: {{ hconfig }}
 
+/etc/profile.d/hadoop.sh:
+  file.managed:
+    - source: salt://hadoop/conf/hadoop.sh.jinja
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+
 {{ hconfig }}/core-site.xml:
   file.managed:
     - source: salt://hadoop/conf/core-site.xml.jinja
