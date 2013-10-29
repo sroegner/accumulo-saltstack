@@ -12,9 +12,10 @@ base:
   'roles:datanode':
     - match: grain
     - hadoop.hdfs.datanode
+    - hadoop.hdfs.start_datanode
 
   'roles:namenode':
     - match: grain
     - hadoop.hdfs.namenode
     - hadoop.hdfs.format
-
+    - hadoop.hdfs.start_namenode

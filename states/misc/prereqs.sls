@@ -58,7 +58,3 @@ vm.overcommit_memory:
     - present
     - value: 0
 
-fs.epoll.max_user_instances:
-  sysctl:
-    - present
-    - value: 4096

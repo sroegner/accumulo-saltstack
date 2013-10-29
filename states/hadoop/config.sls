@@ -40,3 +40,10 @@ conf-dirs:
   file.managed:
     - source: salt://hadoop/conf/slaves.jinja
     - template: jinja
+
+{{ hconfig }}/log4j.properties:
+  file.copy:
+    - source: /usr/lib/hadoop/etc/hadoop.backup/log4j.properties
+    - user: root
+    - group: root
+    - mode: 644
