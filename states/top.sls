@@ -18,3 +18,5 @@ base:
     - match: grain
     - hadoop.hdfs.namenode
     - hadoop.hdfs.format
+    - hadoop.hdfs.start_namenode
+    - hadoop.hdfs.start_secondarynamenode

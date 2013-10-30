@@ -1,4 +1,4 @@
-hadoop-namenode:
+hadoop-secondarynamenode:
   service:
     - running
     - enable: True

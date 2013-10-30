@@ -42,33 +42,5 @@ rename-hadoop-dist-conf:
     - require:
       - cmd: rename-hadoop-dist-conf
 
-
-{% if grains['os_family'] == 'RedHat' %}
-{% set node_roles = grains.get('roles', []) %}
-{% set all_roles  = ['namenode','secondarynamenode','datanode','tasktracker','jobtracker','resourcemanager','nodemanager'] %}
-
-{% for role in node_roles %}
-{% if role in all_roles %}
-{% set intersect = True %}
-{% endif %}
-{% endfor %}
-
-#['namenode','secondarynamenode','datanode','tasktracker','jobtracker','resourcemanager','nodemanager']
-/tmp/jaja:
-  file.append:
-    - text: {{ intersect }}
-
-{% if intersect %}
-initd-scripts:
-  file.managed:
-    - source: salt://hadoop/hadoop-component-init.d.jinja
-    - template: jinja
-    - mode: 755
-    - names:
-{% for role in all_roles %}
-{% if role in node_roles %}
-      - /etc/init.d/hadoop-{{ role }}
-{% endif %}
-{% endfor%}
-{% endif %}
-{% endif %}
+include:
+  - hadoop.init_scripts
