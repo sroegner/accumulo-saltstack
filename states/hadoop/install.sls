@@ -1,14 +1,19 @@
+include:
+  - hadoop.prereqs
+
 {% set hadoop_version = pillar['hadoop_version'] %}
-{% set hadoop_version_name = 'hadoop' + '-' + hadoop_version %}
-{% set hadoop_tgz       = hadoop_version_name + '.tar.gz' %}
+{% set hadoop_version_name = 'hadoop-' + hadoop_version %}
+{% set hadoop_tgz = hadoop_version_name + '.tar.gz' %}
 {% set hadoop_tgz_path  = '/downloads/' + hadoop_tgz %}
 {% set hadoop_alt_home  = '/usr/lib/hadoop' %}
 {% set hadoop_real_home = '/usr/lib/' + hadoop_version_name %}
+{% set hconfig_link   = pillar['hadoop_conf'] %}
+{% set hconfig_dist = hconfig_link + '.dist' %}
 
 {{ hadoop_tgz_path }}:
   file.managed:
     - source: http://sroegner-install.s3.amazonaws.com/{{ hadoop_tgz }}
-    - source_hash: md5=25f27eb0b5617e47c032319c0bfd9962
+    - source_hash: md5={{ pillar['hadoop_tgz_md5'] }}
 
 install-hadoop-dist:
   cmd.run:
@@ -25,22 +30,34 @@ install-hadoop-dist:
     - require:
       - cmd.run: install-hadoop-dist
 
-fix-hadoop-dist-owner:
-  cmd.run:
-    - name: chown -R root.root {{ hadoop_real_home }}
-    - watch:
-      - cmd.run: install-hadoop-dist
+# chown all files to root:root
+{{ hadoop_real_home }}:
+  file.directory:
+    - user: root
+    - group: root
+    - recurse:
+      - user
+      - group
 
-rename-hadoop-dist-conf:
-  cmd.run:
-    - name: mv {{ hadoop_real_home }}/etc/hadoop {{ hadoop_real_home }}/etc/hadoop.backup
-    - unless: test -L {{ hadoop_real_home }}/etc/hadoop
+{% if pillar['hadoop_major_version'] == '1' %}
+{% set hadoop_real_conf = hadoop_real_home + '/conf' %}
+{% else %}
+{% set hadoop_real_conf = hadoop_real_home + '/etc/hadoop' %}
+{% endif %}
 
-{{ hadoop_real_home }}/etc/hadoop:
+move-hadoop-dist-conf:
+  cmd.run:
+    - name: mv  {{ hadoop_real_conf }} {{ hconfig_dist }}
+    - unless: test -L {{ hadoop_real_conf }}
+    - onlyif: test -d {{ hadoop_real_conf }}
+    - require:
+      - file.directory: {{ hadoop_real_home }}
+
+{{ hadoop_real_conf }}:
   file.symlink:
     - target: {{ pillar.get('hadoop_conf') }}
     - require:
-      - cmd: rename-hadoop-dist-conf
+      - cmd: move-hadoop-dist-conf
 
 include:
   - hadoop.init_scripts

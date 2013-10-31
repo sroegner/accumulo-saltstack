@@ -1,8 +1,11 @@
 base:
   '*':
+    - common
+    - hadoop
+    - hdfs
+    - mapred
     - mine
     - paths
     - secret
-    - common
-    - hadoop
     - zookeeper
+

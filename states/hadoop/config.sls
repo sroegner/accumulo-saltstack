@@ -1,6 +1,10 @@
-{% set hadoop_version = pillar['hadoop_version'] -%}
-{% set hconfig_link   = '/etc/hadoop/conf' -%}
-{% set hconfig = hconfig_link + '-' + hadoop_version -%}
+include:
+  - hadoop.install
+
+{% set hadoop_version = pillar['hadoop_version'] %}
+{% set hconfig_link   = pillar['hadoop_conf'] %}
+{% set hconfig = hconfig_link + '-' + hadoop_version %}
+{% set hconfig_dist = hconfig_link + '.dist' %}
 
 conf-dirs:
   file.directory:
@@ -34,6 +38,11 @@ conf-dirs:
     - source: salt://hadoop/conf/hdfs-site.xml.jinja
     - template: jinja
 
+{{ hconfig }}/mapred-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/mapred-site.xml.jinja
+    - template: jinja
+
 {{ hconfig }}/hadoop-env.sh:
   file.managed:
     - source: salt://hadoop/conf/hadoop-env.sh.jinja
@@ -51,7 +60,7 @@ conf-dirs:
 
 {{ hconfig }}/log4j.properties:
   file.copy:
-    - source: /usr/lib/hadoop/etc/hadoop.backup/log4j.properties
+    - source: {{ hconfig_dist }}/log4j.properties
     - user: root
     - group: root
     - mode: 644

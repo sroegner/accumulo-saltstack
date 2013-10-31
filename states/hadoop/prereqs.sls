@@ -1,6 +1,6 @@
 hadoop:
   group.present:
-    - gid: {{ pillar['hadoop_gid'] }}
+    - gid: {{ pillar.get('hadoop_gid', '6000') }}
   file.directory:
     - user: root
     - group: hadoop
@@ -10,10 +10,11 @@ hadoop:
       - /var/run/hadoop
       - /var/lib/hadoop
 
-{% set hadoop_users = ['hdfs','mapred','yarn'] %}
-{% for username in hadoop_users %}
-{% set uid = pillar[username+'_uid'] %}
-{% set usr_home = '/home/' + username %}
+{% set hadoop_users = {'hdfs':'6001','mapred':'6002','yarn':'6003'} %}
+
+{% for username, default_uid in hadoop_users.items() %}
+{% set uid = pillar.get(username+'_uid', default_uid) %}
+{% set userhome = '/home/' + username %}
 
 {{ username }}:
   group.present:
@@ -21,7 +22,7 @@ hadoop:
   user.present:
     - uid: {{ uid }}
     - gid: {{ uid }}
-    - home: {{ usr_home }}
+    - home: {{ userhome }}
     - groups: ['hadoop']
     - require:
       - group: hadoop
@@ -38,7 +39,52 @@ hadoop:
       - file.directory: /var/run/hadoop
       - file.directory: /var/log/hadoop
 
-{{ usr_home }}/.bashrc:
+{{ userhome }}/.ssh:
+  file.directory:
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: 744
+    - require:
+      - user: {{ username }}
+      - group: {{ username }}
+
+{{ username }}_private_key:
+  file.managed:
+    - name: {{ userhome }}/.ssh/id_dsa
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: 600
+    - source: salt://hadoop/files/dsa-{{ username }}
+    - require:
+      - file.directory: {{ userhome }}/.ssh
+
+{{ username }}_public_key:
+  file.managed:
+    - name: {{ userhome }}/.ssh/id_dsa.pub
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: 644
+    - source: salt://hadoop/files/dsa-{{ username }}.pub
+    - require:
+      - file.managed: {{ username }}_private_key
+
+ssh_dss_{{ username }}:
+  ssh_auth.present:
+    - user: {{ username }}
+    - source: salt://hadoop/files/dsa-{{ username }}.pub
+    - require:
+      - file.managed: {{ username }}_private_key
+
+{{ userhome }}/.ssh/config:
+  file.managed:
+    - source: salt://misc/ssh_config
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: 644
+    - require:
+      - file.directory: {{ userhome }}/.ssh
+
+{{ userhome }}/.bashrc:
   file.append:
     - text:
       - export PATH=$PATH:/usr/lib/hadoop/bin:/usr/lib/hadoop/sbin
@@ -53,13 +99,7 @@ hadoop:
     - makedirs: True
 {% endfor %}
 
-{{ pillar.get('hadoop_temp_directory') }}:
-  file.directory:
-    - user: hdfs
-    - group: hadoop
-    - mode: 775
-
-{% for dir in pillar['hdfs_mapred_directories'] %}
+{% for dir in pillar['mapred_local_directories'] %}
 {{ dir }}:
   file.directory:
     - user: mapred
@@ -70,7 +110,13 @@ hadoop:
       - user: mapred
 {% endfor %}
 
+/etc/hadoop:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 755
+
 /etc/security/limits.d/99-hadoop.conf:
   file.managed:
-    - source: salt://hadoop/99-hadoop.conf.jinja
+    - source: salt://hadoop/files/99-hadoop.conf.jinja
     - template: jinja

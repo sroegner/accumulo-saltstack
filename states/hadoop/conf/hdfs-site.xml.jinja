@@ -5,25 +5,41 @@
 
 <configuration>
     <property>
+{% if pillar['hadoop_major_version'] == '1' %}
+        <name>dfs.name.dir</name>
+{% else %}
         <name>dfs.namenode.name.dir</name>
+{% endif %}
         <value>{{ pillar.get('hdfs_nn_directories')|join(',') }}</value>
         <final>true</final>
     </property>
 
     <property>
+{% if pillar['hadoop_major_version'] == '1' %}
+        <name>dfs.data.dir</name>
+{% else %}
         <name>dfs.datanode.data.dir</name>
+{% endif %}
         <value>{{ pillar.get('hdfs_dn_directories')|join(',') }}</value>
         <final>true</final>
     </property>
 
     <property>
-        <name>dfs.namenode.http-address</name>
+{% if pillar['hadoop_major_version'] == '1' %}
+        <name>dfs.http-address</name>
+{% else %}
+        <name>dfs.datanode.http-address</name>
+{% endif %}
         <value>{{ namenode_host }}:{{ pillar.get('namenode_http_port') }}</value>
         <final>true</final>
     </property>
 
     <property>
-        <name>dfs.namenode.secondary.http-address</name>
+{% if pillar['hadoop_major_version'] == '1' %}
+        <name>dfs.secondary.http-address</name>
+{% else %}
+        <name>dfs.secondary.datanode.http-address</name>
+{% endif %}
         <value>{{ namenode_host }}:{{ pillar.get('secondarynamenode_http_port') }}</value>
         <final>true</final>
     </property>

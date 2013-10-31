@@ -1,0 +1,15 @@
+# this is a basic setup to get going with salt formulas
+
+log_level: info
+
+fileserver_backend:
+  - roots
+  - git
+
+file_roots:
+  base:
+    - /srv/salt
+
+gitfs_remotes:
+  - https://github.com/saltstack-formulas/ntp-formula.git
+  - https://github.com/sroegner/zookeeper-formula.git

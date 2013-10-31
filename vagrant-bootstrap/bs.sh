@@ -22,6 +22,9 @@ service salt-minion restart
 
 if [ $(hostname -s) == namenode ]
 then
+  cp -v ${BS}/master /etc/salt/master
+  cd /srv/salt/hadoop/files && ./generate_keypairs.sh
+  service salt-master restart
   echo "===> waiting for minion key requests ..."
   sleep 10
   echo

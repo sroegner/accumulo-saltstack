@@ -37,4 +37,5 @@ nosetests.xml
 *.tar.gz
 .idea
 .vagrant
+states/hadoop/files/dsa*
 

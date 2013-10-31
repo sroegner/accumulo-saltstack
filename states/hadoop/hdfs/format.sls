@@ -1,11 +1,15 @@
+{% if 'namenode' in grains['roles'] %}
+{% set test_folder = pillar['hdfs_nn_directories']|first() + '/current' %}
+
 include:
-  - hadoop.prereqs
-  - hadoop.install
+  - sun-java
   - hadoop.config
 
-# TODO: make this work with hadoop 1
 format-namenode:
   cmd.run:
-    - name: /usr/lib/hadoop/bin/hdfs namenode -format | tee
+    - name: /usr/lib/hadoop/bin/hadoop namenode -format -force
     - user: hdfs
-    - unless: test -d {{ pillar.get('hdfs_nn_directories')|first() }}/current
+    - unless: test -d {{ test_folder }}
+    - require:
+      - file.managed: jdk-config
+{% endif %}

@@ -1,6 +1,5 @@
 export JAVA_HOME={{ pillar.get('JAVA_HOME') }}
-export HADOOP_PREFIX=/usr/lib/hadoop
-export HADOOP_HOME=/usr/lib/hadoop
+export HADOOP_PREFIX={{ pillar.get('HADOOP_HOME') }}
 export HADOOP_CONF_DIR={{ pillar.get('hadoop_conf') }}
 export PATH=$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin:${JAVA_HOME}/bin:$PATH
 

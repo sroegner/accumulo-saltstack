@@ -1,5 +1,7 @@
 base:
   '*':
+    - epel
+    - ntp.server
     - misc.prereqs
     - sun-java
     - zookeeper
@@ -7,7 +9,7 @@ base:
 
   'roles:zookeeper':
     - match: grain
-    - zookeeper.start
+    - zookeeper.server
 
   'roles:datanode':
     - match: grain
@@ -20,3 +22,7 @@ base:
     - hadoop.hdfs.format
     - hadoop.hdfs.start_namenode
     - hadoop.hdfs.start_secondarynamenode
+
+  'roles:jobtracker':
+    - match: grain
+    - hadoop.mapred.jobtracker
