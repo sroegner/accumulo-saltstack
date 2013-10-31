@@ -26,3 +26,7 @@ base:
   'roles:jobtracker':
     - match: grain
     - hadoop.mapred.jobtracker
+
+  'roles:tasktracker':
+    - match: grain
+    - hadoop.mapred.tasktracker

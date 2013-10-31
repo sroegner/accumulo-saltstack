@@ -2,9 +2,8 @@
 
 include:
   - hadoop.config
-  - hadoop.hdfs.add_tempdir
 
-hadoop-jobtracker:
+hadoop-tasktracker:
   service.running:
     - enable: True
     - require:
