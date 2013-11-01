@@ -8,7 +8,7 @@ do
   if [ ! -f $keyname ]
   then
     echo "===> generating new keypair for user $name"
-    yes "\n" | ssh-keygen -q -t dsa -C ${name} -f $keyname 2>/dev/null
+    ssh-keygen -q -t dsa -C ${name} -f $keyname -N '' 2>/dev/null
     ls -1 ${keyname} ${keyname}.pub
   else
     echo "===> skipping existing keypair for user $name"
