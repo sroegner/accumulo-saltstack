@@ -1,32 +1,25 @@
 base:
   '*':
-    - epel
     - ntp.server
     - misc.prereqs
     - sun-java
     - zookeeper
-    - hadoop
+    - hadoop.prereqs
+    - hadoop.install
 
   'roles:zookeeper':
     - match: grain
     - zookeeper.server
 
-  'roles:datanode':
+  'roles:hadoop_slave':
     - match: grain
     - hadoop.hdfs.datanode
-    - hadoop.hdfs.start_datanode
+    - hadoop.mapred.tasktracker
 
-  'roles:namenode':
+  'roles:hadoop_master':
     - match: grain
     - hadoop.hdfs.namenode
+    - hadoop.hdfs.secondarynamenode
     - hadoop.hdfs.format
-    - hadoop.hdfs.start_namenode
-    - hadoop.hdfs.start_secondarynamenode
-
-  'roles:jobtracker':
-    - match: grain
+    - hadoop.hdfs.add_tempdir
     - hadoop.mapred.jobtracker
-
-  'roles:tasktracker':
-    - match: grain
-    - hadoop.mapred.tasktracker

@@ -1,6 +1,10 @@
+{%- set hadoop_user_defaults = {'hdfs':'6001','mapred':'6002','yarn':'6003'} %}
+{%- set hadoop = pillar.get('hadoop', {}) %}
+{%- set hadoop_users = hadoop.get('users', {}) %}
+
 hadoop:
   group.present:
-    - gid: {{ pillar.get('hadoop_gid', '6000') }}
+    - gid: {{ hadoop_users.get('hadoop', '6000') }}
   file.directory:
     - user: root
     - group: hadoop
@@ -9,11 +13,12 @@ hadoop:
       - /var/log/hadoop
       - /var/run/hadoop
       - /var/lib/hadoop
+    - require:
+      - group: hadoop
 
-{% set hadoop_users = {'hdfs':'6001','mapred':'6002','yarn':'6003'} %}
+{% for username, default_uid in hadoop_user_defaults.items() %}
 
-{% for username, default_uid in hadoop_users.items() %}
-{% set uid = pillar.get(username+'_uid', default_uid) %}
+{% set uid = hadoop_users.get(username, default_uid) %}
 {% set userhome = '/home/' + username %}
 
 {{ username }}:

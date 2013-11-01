@@ -12,4 +12,3 @@ file_roots:
 
 gitfs_remotes:
   - https://github.com/saltstack-formulas/ntp-formula.git
-  - https://github.com/sroegner/zookeeper-formula.git

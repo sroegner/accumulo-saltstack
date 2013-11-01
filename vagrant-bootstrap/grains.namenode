@@ -7,11 +7,5 @@ mapred_data_disks:
   - /data2
 
 roles:
-  - namenode
-  - secondarynamenode
-  - jobtracker
-  - resourcemanager
-  - zookeeper
-  - accumulo-master
-  - accumulo-monitor
-  - accumulo-gc
+  - hadoop_master
+  - accumulo_master

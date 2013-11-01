@@ -1,2 +1,3 @@
 include:
-  - hadoop.config
+  - hadoop.prereqs
+  - hadoop.install

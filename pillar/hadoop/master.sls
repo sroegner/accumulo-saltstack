@@ -1,0 +1,4 @@
+roles:
+  - jobtracker
+  - namenode
+  - secondarynamenode

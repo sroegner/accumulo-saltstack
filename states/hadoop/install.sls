@@ -1,5 +1,6 @@
 include:
   - hadoop.prereqs
+  - hadoop.init_scripts
 
 {% set hadoop_version = pillar['hadoop_version'] %}
 {% set hadoop_version_name = 'hadoop-' + hadoop_version %}
@@ -8,6 +9,7 @@ include:
 {% set hadoop_alt_home  = '/usr/lib/hadoop' %}
 {% set hadoop_real_home = '/usr/lib/' + hadoop_version_name %}
 {% set hconfig_link   = pillar['hadoop_conf'] %}
+{% set hconfig = hconfig_link + '-' + hadoop_version %}
 {% set hconfig_dist = hconfig_link + '.dist' %}
 
 /etc/hadoop:
@@ -67,5 +69,35 @@ move-hadoop-dist-conf:
     - require:
       - cmd: move-hadoop-dist-conf
 
-include:
-  - hadoop.init_scripts
+/etc/profile.d/hadoop.sh:
+  file.managed:
+    - source: salt://hadoop/files/hadoop.sh.jinja
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+
+{{ hconfig }}:
+  file.recurse:
+    - source: salt://hadoop/conf
+    - template: jinja
+    - require:
+      - file: /etc/profile.d/hadoop.sh
+
+hadoop-conf-link:
+  alternatives.install:
+    - link: {{ hconfig_link }}
+    - path: {{ hconfig }}
+    - priority: 30
+    - require:
+      - file.directory: {{ hconfig }}
+
+{{ hconfig }}/log4j.properties:
+  file.copy:
+    - source: {{ hconfig_dist }}/log4j.properties
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - file: {{ hconfig }}
+      - alternatives.install: hadoop-conf-link

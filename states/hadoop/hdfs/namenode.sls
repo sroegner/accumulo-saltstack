@@ -1,14 +1,14 @@
+{% if 'hadoop_master' in grains['roles'] %}
 include:
   - hadoop.prereqs
+  - hadoop.hdfs.format
 
-{% for dir in pillar['hdfs_nn_directories'] %}
-{{ dir }}:
-  file.directory:
-    - user: hdfs
-    - group: hadoop
-    - mode: 755
-    - makedirs: True
+hadoop-namenode:
+  service:
+    - running
+    - enable: True
     - require:
-      - user: hdfs
-{% endfor %}
+      - cmd.run: format-namenode
+      - file.managed: hadoop-init-scripts
 
+{% endif %}

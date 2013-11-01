@@ -3,6 +3,7 @@ Vagrant.configure("2") do |config|
   states           = File.join(project_home, "states")
   pillar           = File.join(project_home, "pillar")
   download_folder  = File.join(project_home, "downloads")
+  dev_formulas     = File.join(project_home, '..', 'formulas')
   dot_m2_folder    = File.join(Dir.home, '.m2', 'repository')
   m2_folder        = dot_m2_folder if FileTest.directory?(dot_m2_folder)
   Dir.mkdir(download_folder) unless FileTest.directory?(download_folder)
@@ -41,6 +42,16 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder m2_folder, "/mavenrepo" unless m2_folder.nil?
   config.vm.synced_folder states, "/srv/salt"
   config.vm.synced_folder pillar, "/srv/pillar"
+
+  # if <name>-formula is found in ../formulas they will be mounted 
+  # as /srv/<name>-formula
+
+  if FileTest.directory?(dev_formulas)
+    Dir.glob("#{dev_formulas}/*-formula") do |d|
+      config.vm.synced_folder d, "/srv/#{File.basename(d)}"
+    end
+  end
+  
   config.vm.synced_folder download_folder, "/downloads"
   config.vm.box = "centos6_node_salt"
   config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt.box"

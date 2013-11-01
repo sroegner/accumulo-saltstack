@@ -1,7 +1,7 @@
-{% if 'jobtracker' in grains['roles'] %}
+{% if 'hadoop_master' in grains['roles'] %}
 
 include:
-  - hadoop.config
+  - hadoop.install
   - hadoop.hdfs.add_tempdir
 
 hadoop-jobtracker:
@@ -9,4 +9,6 @@ hadoop-jobtracker:
     - enable: True
     - require:
       - file.managed: hadoop-init-scripts
+      - cmd: add-temp
+
 {% endif %}

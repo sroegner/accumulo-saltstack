@@ -9,9 +9,6 @@ mapred_data_disks:
   - /data3
 
 roles:
-  - datanode
-  - tasktracker
-  - nodemanager
-  - accumulo-tserver
-  - accumulo-tracer
+  - hadoop_slave
+  - accumulo_slave
 
