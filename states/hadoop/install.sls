@@ -10,6 +10,11 @@ include:
 {% set hconfig_link   = pillar['hadoop_conf'] %}
 {% set hconfig_dist = hconfig_link + '.dist' %}
 
+/etc/hadoop:
+  file.directory:
+    - user: root
+    - group: root
+
 {{ hadoop_tgz_path }}:
   file.managed:
     - source: http://sroegner-install.s3.amazonaws.com/{{ hadoop_tgz }}
@@ -38,6 +43,8 @@ install-hadoop-dist:
     - recurse:
       - user
       - group
+    - require:
+      - cmd.run: install-hadoop-dist
 
 {% if pillar['hadoop_major_version'] == '1' %}
 {% set hadoop_real_conf = hadoop_real_home + '/conf' %}
@@ -52,6 +59,7 @@ move-hadoop-dist-conf:
     - onlyif: test -d {{ hadoop_real_conf }}
     - require:
       - file.directory: {{ hadoop_real_home }}
+      - file.directory: /etc/hadoop
 
 {{ hadoop_real_conf }}:
   file.symlink:

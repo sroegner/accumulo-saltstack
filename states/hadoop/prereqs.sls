@@ -110,12 +110,6 @@ ssh_dss_{{ username }}:
       - user: mapred
 {% endfor %}
 
-/etc/hadoop:
-  file.directory:
-    - user: root
-    - group: root
-    - mode: 755
-
 /etc/security/limits.d/99-hadoop.conf:
   file.managed:
     - source: salt://hadoop/files/99-hadoop.conf.jinja
