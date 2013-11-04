@@ -1,42 +1,44 @@
-{% set java_version_name = pillar['java_version_name'] %}
-{% set java_tgz = pillar['java_tgz'] %}
-{% set java_tgz_path = '/downloads/' + java_tgz %}
-{% set java_home = pillar['JAVA_HOME'] %}
-{% set jprefix = '/usr/lib/java' %}
-{% set java_real_home = jprefix + '/' + pillar['java_version_name'] %}
+{%- set java_tgz          = salt['pillar.get']('java:tgz', 'jdk-linux-server-x64-1.7.0.45_22-bin.tar.gz') %}
+{%- set tgz_path     = '/tmp/' + java_tgz %}
+# http://sroegner-install.s3.amazonaws.com/{{ java_tgz }}
+{%- set source            = salt['pillar.get']('java:source', '') %}
+# md5=92f56f903483750818ffc3a4f41fe779
+{%- set source_hash       = salt['pillar.get']('java:source_hash', '') %}
+{%- set java_home         = salt['pillar.get']('java_home', '/usr/lib/java') %}
+{%- set version_name      = salt['pillar.get']('java:version_name', 'jdk-linux-server-x64-1.7.0.45_22') %}
+{%- set jprefix           = salt['pillar.get']('java:prefix', '/usr/share/java') %}
+{%- set java_real_home    = jprefix + '/' + version_name %}
 
-/usr/lib/java:
+{{ jprefix }}:
   file.directory:
     - user: root
     - group: root
     - mode: 755
 
-/usr/java:
-  file.directory:
-    - user: root
-    - group: root
-    - mode: 755
-
-{{ java_tgz_path }}:
+{{ tgz_path }}:
   file.managed:
-    - source: http://sroegner-install.s3.amazonaws.com/{{ java_tgz }}
-    - source_hash: md5=92f56f903483750818ffc3a4f41fe779
+{%- if source %}
+    - source: {{ source }}
+    - source_hash: {{ source_hash }}
+{%- else %}
+    - source: salt://sun-java/files/{{ java_tgz }}
+{%- endif %}
 
 unpack-jdk-tarball:
   cmd.run:
-    - name: tar xzf {{ java_tgz_path }}
+    - name: tar xzf {{ tgz_path }}
     - cwd: {{ jprefix }}
     - unless: test -d {{ java_real_home }}
     - require:
       - file.directory: {{ jprefix }}
-      - file.managed: {{ java_tgz_path }}
+      - file.managed: {{ tgz_path }}
   alternatives.install:
     - name: java-home-link
     - link: {{ java_home }}
     - path: {{ java_real_home }}
     - priority: 30
     - require:
-      - file.directory: /usr/java
+      - file.directory: {{ jprefix }}
 
 jdk-config:
   file.managed:
@@ -46,3 +48,6 @@ jdk-config:
     - mode: 644
     - user: root
     - group: root
+    - context:
+      java_home: {{ java_home }}
+
