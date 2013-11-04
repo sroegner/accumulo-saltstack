@@ -1,5 +1,0 @@
-# maintained by saltstack template
-{% for username in ['hdfs','mapred','yarn'] %}
-{{ username }} - nofile 65536
-{{ username }} - nproc 65536
-{% endfor -%}

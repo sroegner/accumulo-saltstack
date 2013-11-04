@@ -4,22 +4,11 @@ base:
     - misc.prereqs
     - sun-java
     - zookeeper
-    - hadoop.prereqs
-    - hadoop.install
-
-  'roles:zookeeper':
-    - match: grain
-    - zookeeper.server
-
-  'roles:hadoop_slave':
-    - match: grain
-    - hadoop.hdfs.datanode
-    - hadoop.mapred.tasktracker
+    - hadoop
+    - hadoop.hdfs
+    - accumulo
+    - accumulo.server
 
   'roles:hadoop_master':
-    - match: grain
-    - hadoop.hdfs.namenode
-    - hadoop.hdfs.secondarynamenode
-    - hadoop.hdfs.format
-    - hadoop.hdfs.add_tempdir
-    - hadoop.mapred.jobtracker
+    - match: grains
+    - zookeeper.server

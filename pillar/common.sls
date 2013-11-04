@@ -8,3 +8,4 @@ java:
   alternatives: 
     home: /usr/lib/java
 
+java_home: /usr/java/default
