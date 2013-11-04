@@ -1,5 +1,0 @@
-Host *
-    UserKnownHostsFile=/dev/null
-    LogLevel QUIET
-    EnableSSHKeysign yes
-    StrictHostKeyChecking no
