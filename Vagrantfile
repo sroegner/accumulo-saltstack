@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   project_home     = File.expand_path(File.join(File.dirname(__FILE__)))
-  states           = File.join(project_home, "states")
+  states           = project_home
   pillar           = File.join(project_home, "pillar")
   download_folder  = File.join(project_home, "downloads")
   dev_formulas     = File.join(project_home, '..', 'formulas')

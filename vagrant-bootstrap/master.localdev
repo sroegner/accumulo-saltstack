@@ -9,11 +9,10 @@ fileserver_backend:
 file_roots:
   base:
     - /srv/salt
+    - /srv/hadoop-formula
+    - /srv/zookeeper-formula
+    - /srv/accumulo-formula
+    - /srv/sun-java-formula
 
 gitfs_remotes:
   - https://github.com/saltstack-formulas/ntp-formula.git
-  - https://github.com/accumulo/sun-java-formula.git
-  - https://github.com/accumulo/hadoop-formula.git
-  - https://github.com/accumulo/zookeeper-formula.git
-  - https://github.com/accumulo/accumulo-formula.git
- 

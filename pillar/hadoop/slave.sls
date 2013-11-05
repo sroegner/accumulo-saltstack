@@ -1,3 +1,0 @@
-roles:
-  - datanode
-  - tasktracker

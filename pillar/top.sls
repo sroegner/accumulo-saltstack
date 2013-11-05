@@ -1,18 +1,9 @@
 base:
   '*':
-    - common
+    - sun-java
     - hadoop
-    - mine
-    - paths
-    - secret
+    - hadoop.hdfs
+    - hadoop.mapred
     - accumulo
     - zookeeper
-
-  'roles:hadoop_master':
-    - match: grain
-    - hadoop.master
-
-  'roles:hadoop_slave':
-    - match: grain
-    - hadoop.slave
 

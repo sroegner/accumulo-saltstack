@@ -22,7 +22,13 @@ service salt-minion restart
 
 if [ $(hostname -s) == namenode ]
 then
-  cp -v ${BS}/master /etc/salt/master
+  formulas=$(ls -1 /srv/*-formula 2>/dev/null|wc -l)
+  if [ $formulas -gt 0 ]
+  then
+    cp -v ${BS}/master.localdev /etc/salt/master
+  else
+    cp -v ${BS}/master /etc/salt/master
+  fi
   if [ -d /srv/salt/hadoop/files ]
   then
     cd /srv/salt/hadoop/files && ./generate_keypairs.sh
