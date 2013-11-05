@@ -2,6 +2,9 @@ accumulo:
   version: 1.5.0
   source: http://www.us.apache.org/dist/accumulo/1.5.0/accumulo-1.5.0-bin.tar.gz
   source_hash: sha1=283a13ca9bf1cb72395a3cfe6176a06f49e667d1
+  sources:
+    source: http://www.us.apache.org/dist/accumulo/1.5.0/accumulo-1.5.0-src.tar.gz
+    source_hash: sha1=c2bacfd8abeb60d50d87820a4b9fabed92078370
 
   config:
     accumulo-site:

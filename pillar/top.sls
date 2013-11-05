@@ -6,4 +6,4 @@ base:
     - hadoop.mapred
     - accumulo
     - zookeeper
-
+    - mvn

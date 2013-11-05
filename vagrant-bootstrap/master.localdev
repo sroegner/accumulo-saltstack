@@ -13,6 +13,7 @@ file_roots:
     - /srv/zookeeper-formula
     - /srv/accumulo-formula
     - /srv/sun-java-formula
+    - /srv/mvn-formula
 
 gitfs_remotes:
   - https://github.com/saltstack-formulas/ntp-formula.git

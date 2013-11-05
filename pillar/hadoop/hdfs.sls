@@ -1,5 +1,4 @@
 {% set disks     = grains.get('hdfs_data_disks', ['/data']) %}
-{% set mr_disks  = grains.get('mapred_data_disks', ['/data']) %}
 {% set all_disks = (disks and mr_disks) %}
 
 hdfs:

@@ -1,6 +1,7 @@
 master: namenode.accumulo.local
 mine_functions:
   network.interfaces: []
+  network.ip_addrs: []
   test.ping: []
   grains.items: []
 

@@ -6,6 +6,7 @@ base:
     - zookeeper
     - hadoop
     - hadoop.hdfs
+    - hadoop.mapred
     - accumulo
     - accumulo.server
 
