@@ -13,14 +13,13 @@ set-fqdn:
   cmd.run:
     - name: hostname {{ fqdn }}
 
-/etc/sysconfig
 /etc/rc.local:
   file.append:
     - text:
       - '# replace the IP'
       - 'IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4 2>/dev/null)'
       - 'HOSTNAME=$(hostname)'
-      - 'sed -i "s/^.*${HOSTNAME}/${IP} accumulo-int-03.accumulo-ec2-test.com/g" /etc/hosts'
+      - 'sed -i "s/^.*${HOSTNAME}/${IP} ${HOSTNAME}/g" /etc/hosts'
       - 'service hadoop-namenode start'
       - 'service hadoop-secondarynamenode start'
       - 'service hadoop-datanode start'
