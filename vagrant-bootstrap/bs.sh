@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BS=/vagrant/vagrant-bootstrap
+NODE_COUNT=${1:-1}
 
 cp -v ${BS}/hosts /etc/hosts
 cp -v ${BS}/minion /etc/salt/minion
@@ -11,11 +12,16 @@ chkconfig iptables off
 
 rm -f /etc/salt/minion_id
 
-if [ $(hostname -s) == namenode ]
+if [ $NODE_COUNT -gt 0 ]
 then
-  cp ${BS}/grains.namenode /etc/salt/grains
+  if [ $(hostname -s) == namenode ]
+  then
+    cp ${BS}/grains.namenode /etc/salt/grains
+  else
+    cp ${BS}/grains.datanode /etc/salt/grains
+  fi
 else
-  cp ${BS}/grains.datanode /etc/salt/grains
+  cp ${BS}/grains.standalone /etc/salt/grains
 fi
 
 service salt-minion restart

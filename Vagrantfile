@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   m2_folder        = dot_m2_folder if FileTest.directory?(dot_m2_folder)
   Dir.mkdir(download_folder) unless FileTest.directory?(download_folder)
   clusterdomain    = "accumulo.local"
-  datanode_count   = ENV['NODE_COUNT'] || '1'
+  datanode_count   = ENV['NODE_COUNT'] || '0'
   supported_dists  = %w{asf2 asf1 hdp1 hdp2 cdh4-mr cdh4-yarn}
   hadoop_dist_raw  = ENV['HADOOP_DIST'] || 'asf2'
   is_singlenode    = datanode_count.eql?('0')
@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder download_folder, "/downloads"
   config.vm.box = "centos6_node_salt"
   config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt.box"
-  config.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh'
+  config.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh', :args => "#{datanode_count}"
 
   node_list.each do |nodename|
     config.vm.define nodename do |n|
