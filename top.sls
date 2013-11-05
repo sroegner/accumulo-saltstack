@@ -3,6 +3,7 @@ base:
     - ntp.server
     - misc.prereqs
     - sun-java
+    - mvn
     - zookeeper
     - hadoop
     - hadoop.hdfs
