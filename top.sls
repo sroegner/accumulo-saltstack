@@ -1,5 +1,6 @@
 base:
   '*':
+    - ec2
     - ntp.server
     - prereqs
     - sun-java
