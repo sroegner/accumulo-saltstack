@@ -1,7 +1,20 @@
 {%- set clusterdomain = salt['grains.get']('clusterdomain', 'accumulo-ec2-test.com') %}
 {%- set fqdn = grains['id'] + '.' + clusterdomain %}
+{%- set addrs = salt['mine.get']('*', 'network.ip_addrs') %}
 
 {%- if grains['virtual'] == 'xen' %}
+{%- if addrs %}
+{%- for name, addrlist in addrs.items() %}
+
+{{ name }}-host-entry:
+  host.present:
+    - ip: {{ addrlist|first() }}
+    - names:
+      - {{ name }}.{{ clusterdomain }}
+      - {{ name }}
+
+{% endfor %}
+{% endif %}
 
 {%- if grains['os_family'] == 'RedHat' %}
 /etc/sysconfig/network:
@@ -29,3 +42,5 @@ set-fqdn:
       - 'su - accumulo -c "/usr/lib/accumulo/bin/start-all.sh"'
 
 {% endif %}
+
+
