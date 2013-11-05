@@ -1,6 +1,8 @@
 {%- set clusterdomain = salt['grains.get']('clusterdomain', 'accumulo-ec2-test.com') %}
 {%- set fqdn = grains['id'] + '.' + clusterdomain %}
 
+{%- if grains['virtual'] == 'xen' %}
+
 {%- if grains['os_family'] == 'RedHat' %}
 /etc/sysconfig/network:
   file.replace:
@@ -26,3 +28,4 @@ set-fqdn:
       - 'service zookeeper start'
       - 'su - accumulo -c "/usr/lib/accumulo/bin/start-all.sh"'
 
+{% endif %}

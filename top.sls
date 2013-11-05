@@ -1,7 +1,7 @@
 base:
   '*':
     - ntp.server
-    - misc.prereqs
+    - prereqs
     - sun-java
     - mvn
     - zookeeper
