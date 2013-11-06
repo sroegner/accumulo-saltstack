@@ -1,0 +1,19 @@
+# this is a basic setup to get going with salt formulas
+
+log_level: info
+
+fileserver_backend:
+  - roots
+  - git
+
+file_roots:
+  base:
+    - /srv/salt
+    - /srv/hadoop-formula
+    - /srv/zookeeper-formula
+    - /srv/accumulo-formula
+    - /srv/sun-java-formula
+    - /srv/mvn-formula
+
+gitfs_remotes:
+  - https://github.com/saltstack-formulas/ntp-formula.git
