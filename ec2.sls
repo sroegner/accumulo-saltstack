@@ -38,6 +38,8 @@ set-fqdn:
       - 'service hadoop-namenode start'
       - 'service hadoop-secondarynamenode start'
       - 'service hadoop-datanode start'
+      - 'service hadoop-jobtracker start'
+      - 'service hadoop-tasktracker start'
       - 'service zookeeper start'
       - 'su - accumulo -c "/usr/lib/accumulo/bin/start-all.sh"'
 
