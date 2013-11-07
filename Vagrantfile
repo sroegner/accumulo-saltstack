@@ -6,6 +6,7 @@ Vagrant.configure("2") do |config|
   dev_formulas     = File.join(project_home, '..', 'formulas')
   dot_m2_folder    = File.join(Dir.home, '.m2', 'repository')
   m2_folder        = dot_m2_folder if FileTest.directory?(dot_m2_folder)
+  Dir.mkdir(pillar) unless FileTest.directory?(pillar)
   Dir.mkdir(download_folder) unless FileTest.directory?(download_folder)
   clusterdomain    = "accumulo.local"
   datanode_count   = ENV['NODE_COUNT'] || '0'

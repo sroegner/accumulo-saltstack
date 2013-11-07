@@ -28,6 +28,7 @@ Here is an example for now:
      
     gitfs_remotes:
       - https://github.com/saltstack-formulas/ntp-formula.git
+      - https://github.com/saltstack-formulas/hosts-formula.git
       - https://github.com/accumulo/accumulo-formula.git
       - https://github.com/accumulo/zookeeper-formula.git
       - https://github.com/accumulo/hadoop-formula.git
