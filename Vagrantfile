@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   supported_dists  = %w{asf2 asf1 hdp1 hdp2 cdh4-mr cdh4-yarn}
   hadoop_dist_raw  = ENV['HADOOP_DIST'] || 'asf2'
   is_singlenode    = datanode_count.eql?('0')
+  vmname_prefix    = ENV['VMNAME_PREFIX'] || 'accumulo-salt'
   
   if supported_dists.include?(hadoop_dist_raw)
     hadoop_dist = hadoop_dist_raw
@@ -64,9 +65,9 @@ Vagrant.configure("2") do |config|
       n.vm.network :private_network, ip:"#{host_list[nodename]}", :adapter => 2
       n.vm.provider "virtualbox" do |v|
         if nodename.eql?("namenode")
-          v.customize [ 'modifyvm', :id, '--name', "accumulo-salt-#{nodename}", '--memory', "3072", '--cpus', "1" ]
+          v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "3072", '--cpus', "1" ]
         else
-          v.customize [ 'modifyvm', :id, '--name', "accumulo-salt-#{nodename}", '--memory', "2048", '--cpus', "1" ]
+          v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "2048", '--cpus', "1" ]
         end
       end
     end

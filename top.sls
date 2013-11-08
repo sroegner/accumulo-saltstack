@@ -2,9 +2,7 @@ base:
   '*':
     - ec2
     - ntp.server
-    - prereqs
     - sun-java
-    - mvn
     - zookeeper
     - hadoop
     - hadoop.hdfs
@@ -15,3 +13,7 @@ base:
   'roles:hadoop_master':
     - match: grains
     - zookeeper.server
+
+  'roles:development':
+    - match: grains
+    - mvn

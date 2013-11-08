@@ -19,5 +19,5 @@ gitfs_remotes:
   - https://github.com/saltstack-formulas/ntp-formula.git
   - https://github.com/saltstack-formulas/hosts-formula.git
 
-ext_pillar:
-  - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
+#ext_pillar:
+#  - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
