@@ -2,8 +2,8 @@
 
 # this script is to support use of formulas like hadoop-formula and accumulo-formula
 # that rely on but come without ssh keypair files
-
-cd ${0}
+set -x
+cd $(dirname $0)
 bindir=$(pwd)
 cd - 2>/dev/null
 
@@ -21,4 +21,6 @@ then
 		  ${generator} ${formula}
 		fi
 	done
+else
+	echo "This script needs to be executed on your salt master"
 fi	
