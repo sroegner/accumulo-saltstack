@@ -40,9 +40,11 @@ then
     cd /srv/salt/tools && ./generate_all.sh
   fi
   service salt-master restart
+  python ${BS}/refresh-gitfs.py
   echo "===> waiting for minion key requests ..."
   sleep 10
   echo
   salt-key -y -A
-  salt-key -L
+  echo "===> just another minute or so ... refreshing gitfs remotes"
+  salt \* state.show_lowstate 2>&1 > /dev/null
 fi
