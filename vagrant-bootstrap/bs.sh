@@ -35,9 +35,9 @@ then
   else
     cp -v ${BS}/master /etc/salt/master
   fi
-  if [ -d /srv/salt/hadoop/files ]
+  if [ ! -f /srv/salt/hadoop/files/dsa-hdfs.pub ]
   then
-    cd /srv/salt/hadoop/files && ./generate_keypairs.sh
+    cd /srv/salt/tools && ./generate_all.sh
   fi
   service salt-master restart
   echo "===> waiting for minion key requests ..."

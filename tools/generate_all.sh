@@ -2,7 +2,8 @@
 
 # this script is to support use of formulas like hadoop-formula and accumulo-formula
 # that rely on but come without ssh keypair files
-set -x
+# set -x
+
 cd $(dirname $0)
 bindir=$(pwd)
 cd - 2>/dev/null
