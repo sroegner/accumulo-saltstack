@@ -56,7 +56,9 @@ Vagrant.configure("2") do |config|
   
   config.vm.synced_folder download_folder, "/downloads"
   config.vm.box = "centos6_node_salt"
+  #config.vm.box = "ubuntu_node_salt"
   config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt.box"
+  #config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/ubuntu-salt.box"
   config.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh', :args => "#{datanode_count}"
 
   node_list.each do |nodename|
