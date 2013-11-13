@@ -12,7 +12,7 @@ code provided for local development and testing.
 Salt Master Configuration
 -
 
-As this preject has next to no code of its own, you'll need to configure your salt master to pull in the necessary formulas. Also notice that the generic pillar settings are pulled in as ext_pillar via gitfs - you can easily plug in your own settings instead.
+As this project has next to no code of its own, you'll need to configure your salt master to pull in the necessary formulas. Also notice that the generic pillar settings are pulled in as ext_pillar via gitfs - you can easily plug in your own settings instead.
 Please see AWS_EXAMPLE.md for a full configuration example.
 
 Using Vagrant

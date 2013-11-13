@@ -127,7 +127,7 @@ __`/etc/salt/cloud.profiles`__
         ext_pillar:
           - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
 
-The clusterdomain currently helps with setting the hostnames right (the default in ec2.sls is thesame as here in the configuration) - making the minion ids match in the map below is just for consistency.
+The clusterdomain currently helps with setting the hostnames right (the default in ec2.sls is the same as here in the configuration) - making the minion ids match in the map below is just for consistency.
 
 __`/etc/salt/accumulo-demo.map`__
 
