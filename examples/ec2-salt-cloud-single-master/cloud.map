@@ -1,0 +1,27 @@
+
+my-accumulo-profile:
+  systest-master:
+    minion:
+      allow_undefined: true
+      grains:
+        clusterdomain: accumulo-ec2-test.com
+        roles:
+          - hadoop_master
+          - accumulo_master
+        hdfs_data_disks:
+          - /data1
+
+% for i in xrange(1):
+  systest-slave-0${i}:
+    minion:
+      allow_undefined: true
+      grains:
+        clusterdomain: accumulo-ec2-test.com
+        roles:
+          - hadoop_slave
+          - accumulo_slave
+        hdfs_data_disks:
+          - /data1
+          - /data2
+%endfor
+
