@@ -21,3 +21,8 @@ salt-cloud -C cloud -m cloud.map \
   --profiles=cloud.profiles.d/amazon.yaml
 ```
 
+Status
+------
+
+This example doesn't work, Salt Master configuration is generated broken by
+salt-cloud.
