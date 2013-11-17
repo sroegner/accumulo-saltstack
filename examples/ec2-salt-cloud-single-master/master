@@ -1,0 +1,27 @@
+fileserver_backend:
+  - roots
+  - git
+
+file_roots:
+  base:
+    - /home/ubuntu/accumulo-saltstack
+
+peer:
+  .*:
+    - test.*
+    - grains.*
+
+#- https://github.com/accumulo/accumulo-saltstack.git
+
+gitfs_remotes:
+  - https://github.com/saltstack-formulas/ntp-formula.git
+  - https://github.com/accumulo/accumulo-demo-formula.git
+  - https://github.com/accumulo/accumulo-formula.git
+  - https://github.com/accumulo/zookeeper-formula.git
+  - https://github.com/accumulo/hadoop-formula.git
+  - https://github.com/accumulo/sun-java-formula.git
+  - https://github.com/accumulo/mvn-formula.git
+
+ext_pillar:
+  - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
+
