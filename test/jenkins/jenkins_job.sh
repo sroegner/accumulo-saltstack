@@ -5,6 +5,7 @@ SALT_CLOUD=${SALT_CLOUD_PATH:-/home/jenkins/virtual/bin/salt-cloud}
 SALT_CLOUD_OPTS="--profiles=${WS}/jenkins.profiles --map=${WS}/jenkins.map"
 SSH_OPTS='-t -t -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oControlPath=none -oPasswordAuthentication=no -oChallengeResponseAuthentication=no -oPubkeyAuthentication=yes -oKbdInteractiveAuthentication=no'
 STATUS=${WS}/status-${N}.yaml
+TEST_PROPERTIES_FILE=${TEST_PROPERTIES_FILE:-${WS}/../ci.properties}
 
 [ "${SALT_CLOUD_KEY_PATH}" == "" ] && echo "ERROR: please provide the path to your private_key file as SALT_CLOUD_KEY_PATH (as used in your provider definition)" && exit 4
 [ ! -f "${SALT_CLOUD_KEY_PATH}" ] && echo "ERROR: cannot open private_key file ${SALT_CLOUD_KEY_PATH}" && exit 3
@@ -76,6 +77,10 @@ msg "The ip address of the first slave node appears to be ${SLAVE}"
 
 [ "" == "$MASTER" ] && msg "Cannot determine the master IP - giving up" && exit 4 
 [ "" == "$SLAVE" ] && msg "Cannot determine the slave IP - giving up" && exit 4 
+
+echo "ci.accumulo.master=${MASTER}" > ${TEST_PROPERTIES_FILE}
+echo "ci.accumulo.slave=${SLAVE}" >> ${TEST_PROPERTIES_FILE}
+echo "" >> ${TEST_PROPERTIES_FILE}
 
 msg "Adding the gitfs cache directory manually to fix the refresh lag"
 sudo ssh $SSH_OPTS -i ${SALT_CLOUD_KEY_PATH} ec2-user@${MASTER} 'sudo mkdir -p /var/cache/salt/master/gitfs'
