@@ -21,12 +21,13 @@ public class HdfsAvailableTest {
 
     private Configuration conf;
     private FileSystem fileSystem;
-    Properties prop;
+    private Properties prop;
 
 
     @Before
     public void runBefore() {
         conf = new Configuration();
+        prop = new Properties();
         try {
             String fileName = System.getProperty("TEST_PROPERTIES_FILE");
             System.err.println("Reading master IP from " + fileName );
