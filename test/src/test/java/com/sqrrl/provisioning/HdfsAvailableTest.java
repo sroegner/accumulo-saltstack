@@ -32,9 +32,9 @@ public class HdfsAvailableTest {
             String fileName = System.getenv("TEST_PROPERTIES_FILE");
             System.err.println("Reading master IP from " + fileName );
             prop.load(new FileInputStream(fileName));
-            String master_address = prop.getProperty("ci.accumulo.master") + ":8020";
-            System.err.println("Will attempt to connect " + master_address );
-            conf.set("fs.default.name", master_address);
+            String masterUrl = "hdfs://" + prop.getProperty("ci.accumulo.master") + ":8020";
+            System.err.println("Will attempt to connect " + masterUrl );
+            conf.set("fs.default.name", masterUrl);
             fileSystem = FileSystem.get(conf);
         } catch (Exception e) {
             e.printStackTrace();
