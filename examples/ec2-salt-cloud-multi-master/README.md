@@ -13,9 +13,8 @@ pip install apache-libcloud
 pip install mako
 pip install salt
 pip install -e git+https://github.com/vhgroup/salt-cloud.git@v0.8.9-stable#egg=salt-cloud 
-mkdir cloud.keys
-cp your-ssh-key cloud.keys/accumulo-saltstack.pem
-chmod 600 cloud.keys/accumulo-saltstack.pem
+cp your-ssh-key accumulo-saltstack.pem
+chmod 600 accumulo-saltstack.pem
 salt-cloud -C cloud -m accumulo-demo.map --providers-config=cloud.providers \
   --profiles=cloud.profiles
 ```
