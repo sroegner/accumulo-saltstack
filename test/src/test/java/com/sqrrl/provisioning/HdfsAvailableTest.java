@@ -9,6 +9,8 @@ package com.sqrrl.provisioning;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.security.AccessControlException;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,15 +55,11 @@ public class HdfsAvailableTest {
         }
     }
 
-    @Test
-    public void testAccumuloInitialized() {
+    @Test(expected=AccessControlException.class)
+    public void testAccumuloInitialized() throws IOException {
+        // hdfs is not supposed to let me read this here
         Path path = new Path("/accumulo/instance_id");
-        try {
-            Boolean has_root = fileSystem.exists(path);
-            Assert.assertTrue(has_root);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        Boolean has_instance_id = fileSystem.exists(path);
     }
 
 }
