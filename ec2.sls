@@ -1,18 +1,15 @@
-{%- set clusterdomain = salt['grains.get']('clusterdomain', 'accumulo-ec2-test.com') %}
-{%- set fqdn = grains['id'] + '.' + clusterdomain %}
+{%- set fqdn = grains['id'] %}
 {%- set addrs = salt['mine.get']('*', 'network.ip_addrs') %}
 
-{%- if grains['virtual'] == 'xen' %}
+{%- if grains['os'] == 'Amazon' %}
+
 {%- if addrs %}
 {%- for name, addrlist in addrs.items() %}
-
 {{ name }}-host-entry:
   host.present:
     - ip: {{ addrlist|first() }}
     - names:
-      - {{ name }}.{{ clusterdomain }}
       - {{ name }}
-
 {% endfor %}
 {% endif %}
 
@@ -35,14 +32,19 @@ set-fqdn:
       - 'IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4 2>/dev/null)'
       - 'HOSTNAME=$(hostname)'
       - 'sed -i "s/^.*${HOSTNAME}/${IP} ${HOSTNAME}/g" /etc/hosts'
+{%- if 'hadoop_master' in salt['grains.get']('roles', []) %}
       - 'service hadoop-namenode start'
       - 'service hadoop-secondarynamenode start'
-      - 'service hadoop-datanode start'
       - 'service hadoop-jobtracker start'
-      - 'service hadoop-tasktracker start'
       - 'service zookeeper start'
+{%- elif 'hadoop_slave' in salt['grains.get']('roles', []) %}
+      - 'service hadoop-datanode start'
+      - 'service hadoop-tasktracker start'
+{%- endif %}
+{%- if 'accumulo_master' in salt['grains.get']('roles', []) %}
       - 'su - accumulo -c "/usr/lib/accumulo/bin/start-all.sh"'
+{%- endif %}
 
-{% endif %}
+{%- endif %}
 
 
