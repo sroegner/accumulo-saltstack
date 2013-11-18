@@ -1,7 +1,16 @@
 
+<%
+
+import socket
+
+master_fqdn = socket.getfqdn()
+
+%>
+
 my-accumulo-profile:
   systest-master:
     minion:
+      master: ${master_fqdn}
       allow_undefined: true
       grains:
         clusterdomain: accumulo-ec2-test.com
@@ -14,6 +23,7 @@ my-accumulo-profile:
 % for i in xrange(1):
   systest-slave-0${i}:
     minion:
+      master: ${master_fqdn}
       allow_undefined: true
       grains:
         clusterdomain: accumulo-ec2-test.com
