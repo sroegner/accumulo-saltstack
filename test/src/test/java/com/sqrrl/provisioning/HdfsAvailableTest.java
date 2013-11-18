@@ -29,7 +29,7 @@ public class HdfsAvailableTest {
         conf = new Configuration();
         prop = new Properties();
         try {
-            String fileName = System.getProperty("TEST_PROPERTIES_FILE");
+            String fileName = System.getenv("TEST_PROPERTIES_FILE");
             System.err.println("Reading master IP from " + fileName );
             prop.load(new FileInputStream(fileName));
             String master_address = prop.getProperty("ci.accumulo.master") + ":8020";
