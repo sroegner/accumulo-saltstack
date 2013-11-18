@@ -9,7 +9,7 @@
     <name>Sqrrl Analytics Provisioning Test Project</name>
 
     <properties>
-        <hadoop.version>2.2.0</hadoop.version>
+        <hadoop.version>1.2.1</hadoop.version>
     </properties>
 
     <dependencies>
@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
+            <artifactId>hadoop-core</artifactId>
             <version>${hadoop.version}</version>
         </dependency>
         <dependency>
