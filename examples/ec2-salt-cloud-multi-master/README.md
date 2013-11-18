@@ -16,13 +16,11 @@ pip install -e git+https://github.com/vhgroup/salt-cloud.git@v0.8.9-stable#egg=s
 mkdir cloud.keys
 cp your-ssh-key cloud.keys/accumulo-saltstack.pem
 chmod 600 cloud.keys/accumulo-saltstack.pem
-salt-cloud -C cloud -m cloud.map \
-  --providers-config=cloud.providers.d/amazon-ec2-us-east.yaml \
-  --profiles=cloud.profiles.d/amazon.yaml
+salt-cloud -C cloud -m accumulo-demo.map --providers-config=cloud.providers \
+  --profiles=cloud.profiles
 ```
 
 Status
 ------
 
-This example doesn't work, Salt Master configuration is generated broken by
-salt-cloud.
+Works in the salt-cloud host. Accumulo and deps wasn't checked yet.

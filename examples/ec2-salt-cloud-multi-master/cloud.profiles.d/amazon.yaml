@@ -1,8 +1,0 @@
-my-accumulo-profile:
-  provider: my-amz
-  image: ami-7b663c12
-  size: m1.large
-  script: python-bootstrap
-  ssh_username: ec2-user
-  minion: {}
-
