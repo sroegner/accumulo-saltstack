@@ -17,7 +17,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class HdfsAvailibleTest {
+public class HdfsAvailableTest {
 
     private Configuration conf;
     private FileSystem fileSystem;
@@ -28,9 +28,12 @@ public class HdfsAvailibleTest {
     public void runBefore() {
         conf = new Configuration();
         try {
-            String fileName = System.getenv("TEST_PROPERTIES_FILE");
+            String fileName = System.getProperty("TEST_PROPERTIES_FILE");
+            System.err.println("Reading master IP from " + fileName );
             prop.load(new FileInputStream(fileName));
-            conf.set("fs.default.name", prop.getProperty("ci.accumulo.master") + ":8020");
+            String master_address = prop.getProperty("ci.accumulo.master") + ":8020";
+            System.err.println("Will attempt to connect " + master_address );
+            conf.set("fs.default.name", master_address);
             fileSystem = FileSystem.get(conf);
         } catch (Exception e) {
             e.printStackTrace();
