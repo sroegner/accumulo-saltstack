@@ -1,16 +1,16 @@
 /**
  * Created with IntelliJ IDEA.
- * User: steffen
+ * User: Steffen Roegner
  * Date: 11/18/13
  * Time: 5:19 AM
- * To change this template use File | Settings | File Templates.
  */
+package com.sqrrl.provisioning;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -24,8 +24,8 @@ public class HdfsAvailibleTest {
     Properties prop;
 
 
-    @BeforeClass
-    public void setup() {
+    @Before
+    public void runBefore() {
         conf = new Configuration();
         try {
             String fileName = System.getenv("TEST_PROPERTIES_FILE");
