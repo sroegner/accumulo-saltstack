@@ -1,6 +1,5 @@
 base:
   '*':
-    - salt-minion
     - ec2
     - ntp.server
     - sun-java
