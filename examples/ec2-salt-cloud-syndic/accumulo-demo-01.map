@@ -1,0 +1,6 @@
+my-accumulo-saltmaster:
+  - systest01-master.accumulo-ec2-test.com
+my-accumulo-slave:
+  - systest01-slave-01.accumulo-ec2-test.com
+  - systest01-slave-02.accumulo-ec2-test.com
+
