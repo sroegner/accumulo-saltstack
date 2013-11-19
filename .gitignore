@@ -40,4 +40,7 @@ nosetests.xml
 pillar
 hadoop
 accumulo
+test/jenkins/status*yaml
+target
+*iml
 

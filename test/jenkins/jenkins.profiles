@@ -1,0 +1,55 @@
+# two Amazon OS-based profiles for accumulo testing with saltstack
+# please note that your execution environment still has to provide
+# a provider configuration (referenced here as accumulo-integration-amazon
+
+accumulo-saltmaster-amz:
+  provider: accumulo-integration-amazon
+  image: ami-7b663c12
+  size: m1.large
+  ssh_username: ec2-user
+  display_ssh_output: False
+  make_master: True
+  sync_after_install: all
+  grains:
+    roles:
+      - hadoop_master
+      - accumulo_master
+    hdfs_data_disks:
+      - /data1
+  master:
+    user: root
+    log_level: info
+    peer:
+      .*:
+        - test.*
+        - grains.*
+    fileserver_backend:
+      - git
+    gitfs_remotes:
+      - https://github.com/saltstack-formulas/ntp-formula.git
+      - https://github.com/saltstack-formulas/hosts-formula.git
+      - https://github.com/accumulo/accumulo-saltstack.git
+      - https://github.com/accumulo/accumulo-demo-formula.git
+      - https://github.com/accumulo/accumulo-formula.git
+      - https://github.com/accumulo/zookeeper-formula.git
+      - https://github.com/accumulo/hadoop-formula.git
+      - https://github.com/accumulo/sun-java-formula.git
+      - https://github.com/accumulo/mvn-formula.git
+    ext_pillar:
+      - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
+
+accumulo-slave-amz:
+  provider: accumulo-integration-amazon
+  image: ami-7b663c12
+  size: m1.large
+  ssh_username: ec2-user
+  display_ssh_output: False
+  make_master: False
+  sync_after_install: all
+  grains:
+    roles:
+      - hadoop_slave
+      - accumulo_slave
+    hdfs_data_disks:
+      - /data1
+      - /data2

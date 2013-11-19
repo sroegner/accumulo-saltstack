@@ -80,7 +80,6 @@ __`/etc/salt/cloud.profiles`__
       make_master: False
       sync_after_install: all
       grains:
-        clusterdomain: accumulo-ec2-test.com
         roles:
           - hadoop_slave
           - accumulo_slave
@@ -96,7 +95,6 @@ __`/etc/salt/cloud.profiles`__
       make_master: True
       sync_after_install: all
       grains:
-        clusterdomain: accumulo-ec2-test.com
         roles:
           - hadoop_master
           - accumulo_master
@@ -127,7 +125,7 @@ __`/etc/salt/cloud.profiles`__
         ext_pillar:
           - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
 
-The clusterdomain currently helps with setting the hostnames right (the default in ec2.sls is the same as here in the configuration) - making the minion ids match in the map below is just for consistency.
+Please note that the minion ids in the map example below are in fqdn format - this is also what their ec2 hostnames end up being set to.
 
 __`/etc/salt/accumulo-demo.map`__
 

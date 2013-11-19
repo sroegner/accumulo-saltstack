@@ -11,9 +11,9 @@ base:
     - accumulo.server
 
   'roles:hadoop_master':
-    - match: grains
+    - match: grain
     - zookeeper.server
 
   'roles:development':
-    - match: grains
+    - match: grain
     - mvn
