@@ -4,8 +4,8 @@
 
 accumulo-saltmaster-amz:
   provider: accumulo-integration-amazon
-  image: ami-7b663c12
-  size: m1.large
+  image: ami-b9d2f5d0
+  size: m1.medium
   ssh_username: ec2-user
   display_ssh_output: False
   make_master: True
@@ -40,8 +40,8 @@ accumulo-saltmaster-amz:
 
 accumulo-slave-amz:
   provider: accumulo-integration-amazon
-  image: ami-7b663c12
-  size: m1.large
+  image: ami-b9d2f5d0
+  size: m1.medium
   ssh_username: ec2-user
   display_ssh_output: False
   make_master: False
