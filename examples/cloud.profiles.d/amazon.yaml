@@ -1,8 +1,0 @@
-amazon:
-    provider: ec2-us-east-public-ips
-    image: ami-570f603e
-    size: Large Instance 
-    ssh-user: ec2-user 
-    spot_config: {
-       spot_price: 0.09
-    }

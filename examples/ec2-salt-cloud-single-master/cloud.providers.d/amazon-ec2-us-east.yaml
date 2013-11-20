@@ -1,0 +1,7 @@
+my-amz:
+  provider: ec2
+  id: AKIAJGSMX2UBQMOOBQDA
+  key: Q19qV0RzPV6/L5DJo+6XzNJ7ziKYrDaCtmsolj1v
+  private_key: cloud.keys/accumulo-saltstack.pem
+  keyname: accumulo-saltstack
+  ssh_username: ec2-user

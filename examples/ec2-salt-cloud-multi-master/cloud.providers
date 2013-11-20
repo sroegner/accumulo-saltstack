@@ -1,0 +1,22 @@
+
+my-amz:
+  provider: ec2
+  minion:
+    mine_functions:
+      network.interfaces: []
+      network.ip_addrs: []
+      test.ping: []
+      grains.items: []
+    mine_interval: 2
+  id: AKIAJJ2K5ELR5RCJY55A
+  key: UcT742K9zmPoSiZaEr3UgC3CWAcqgQ4yPpe8efUN
+  private_key: accumulo-saltstack.pem
+  keyname: accumulo-saltstack
+  securitygroupid:
+    - default
+  del_root_vol_on_destroy: True
+  del_all_vols_on_destroy: True
+  location: us-east-1
+  availability_zone: us-east-1a
+  ssh_username: ec2-user
+
