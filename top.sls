@@ -5,6 +5,7 @@ base:
     - sun-java
     - zookeeper
     - hadoop
+    - hadoop.snappy
     - hadoop.hdfs
     - hadoop.mapred
     - accumulo
@@ -17,3 +18,4 @@ base:
   'roles:development':
     - match: grain
     - mvn
+    - accumulo.development
