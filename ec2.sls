@@ -32,15 +32,6 @@ set-fqdn:
       - 'IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4 2>/dev/null)'
       - 'HOSTNAME=$(hostname)'
       - 'sed -i "s/^.*${HOSTNAME}/${IP} ${HOSTNAME}/g" /etc/hosts'
-{%- if 'hadoop_master' in salt['grains.get']('roles', []) %}
-      - 'service hadoop-namenode start'
-      - 'service hadoop-secondarynamenode start'
-      - 'service hadoop-jobtracker start'
-      - 'service zookeeper start'
-{%- elif 'hadoop_slave' in salt['grains.get']('roles', []) %}
-      - 'service hadoop-datanode start'
-      - 'service hadoop-tasktracker start'
-{%- endif %}
 {%- if 'accumulo_master' in salt['grains.get']('roles', []) %}
       - 'su - accumulo -c "/usr/lib/accumulo/bin/start-all.sh"'
 {%- endif %}
