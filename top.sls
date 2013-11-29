@@ -8,6 +8,7 @@ base:
     - hadoop.snappy
     - hadoop.hdfs
     - hadoop.mapred
+    - hadoop.yarn
     - accumulo
     - accumulo.server
 
