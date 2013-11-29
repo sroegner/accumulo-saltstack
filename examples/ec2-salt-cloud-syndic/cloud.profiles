@@ -2,7 +2,9 @@
 my-accumulo-slave:
   provider: my-amz
   image: ami-7b663c12
-  size: m1.large
+  script: salt-bootstrap
+  script_args: git v0.17.2
+  size: m1.medium
   display_ssh_output: False
   make_master: False
   sync_after_install: all
@@ -20,7 +22,9 @@ my-accumulo-slave:
 my-accumulo-saltmaster:
   provider: my-amz
   image: ami-7b663c12
-  size: m1.large
+  script: salt-bootstrap
+  script_args: git v0.17.2
+  size: m1.medium
   display_ssh_output: False
   make_master: True
   sync_after_install: all
@@ -36,7 +40,7 @@ my-accumulo-saltmaster:
   master:
     user: root
     log_level: info
-    syndic_master: ip-10-152-168-97.ec2.internal
+    syndic_master: ip-10-178-32-61.ec2.internal
     peer:
       .*:
         - test.*
