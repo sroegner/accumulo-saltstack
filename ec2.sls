@@ -1,7 +1,7 @@
 {%- set fqdn = grains['id'] %}
 {%- set addrs = salt['mine.get']('*', 'network.ip_addrs') %}
 
-{%- if grains['os'] == 'Amazon' %}
+{%- if grains['virtual'] == 'xen' %}
 
 {%- if addrs %}
 {%- for name, addrlist in addrs.items() %}
@@ -18,6 +18,11 @@
   file.replace:
     - pattern: HOSTNAME=localhost.localdomain
     - repl: HOSTNAME={{ fqdn }}
+    - backup: false
+{%- elif grains['os_family'] == 'Debian' %}
+/etc/hostname:
+  file.managed:
+    - content: {{ fqdn }}
     - backup: false
 {% endif %}
 
@@ -37,5 +42,3 @@ set-fqdn:
 {%- endif %}
 
 {%- endif %}
-
-
