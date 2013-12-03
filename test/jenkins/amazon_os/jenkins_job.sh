@@ -2,6 +2,7 @@ N=${BUILD_EXECUTOR:-1}
 cd $(dirname $0)
 WS=$(pwd)
 SCHEMA=$(basename $WS)
+COMMAND=${1:-RUN}
 
 SALT_CLOUD_KEY_PATH=${SALT_CLOUD_KEY_PATH:-/etc/salt/jenkins-key.pem}
 [ ! -f "${SALT_CLOUD_KEY_PATH}" ] && echo "ERROR: cannot open private_key file ${SALT_CLOUD_KEY_PATH}" && exit 3
@@ -47,6 +48,8 @@ then
   fi
 fi
 
+[ "${COMMAND}" == DESTROY ] && exit 0
+
 msg "Starting map ${MAP} now"
 start_map
 
@@ -80,10 +83,6 @@ msg "The ip address of the first slave node appears to be ${SLAVE}"
 
 [ "" == "$MASTER" ] && msg "Cannot determine the master IP - giving up" && exit 4 
 [ "" == "$SLAVE" ] && msg "Cannot determine the slave IP - giving up" && exit 4 
-msg "Put the private key for the private github repos in place"
-sudo scp -i ${SALT_CLOUD_KEY_PATH}  -r ${WS}/ssh ubuntu@${MASTER}:
-sudo ssh $SSH_OPTS ubuntu@${MASTER} 'sudo cp /home/ubuntu/ssh/* /root/.ssh && sudo chmod 600 /root/.ssh/id_dsa'
-sudo ssh $SSH_OPTS ubuntu@${MASTER} 'sudo service salt-master restart'
 msg "Sleep a moment ..."
 sleep 30
 msg "Checking a pillar"
