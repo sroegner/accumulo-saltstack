@@ -12,7 +12,7 @@ base:
     - accumulo
     - accumulo.server
 
-  'roles:hadoop_master':
+  'roles:zookeeper':
     - match: grain
     - zookeeper.server
 

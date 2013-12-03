@@ -9,4 +9,9 @@ roles:
   - accumulo_master
   - hadoop_slave
   - accumulo_slave
+  - standalone
+  - zookeeper
+
+hadoop_version: hdp-2.2.0
+hadoop_source: http://10.10.1.131:8000/hadoop-2.2.0.2.0.6.0-76.tar.gz
 

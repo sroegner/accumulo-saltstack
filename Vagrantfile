@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
   hadoop_dist_raw  = ENV['HADOOP_DIST'] || 'asf2'
   is_singlenode    = datanode_count.eql?('0')
   vmname_prefix    = ENV['VMNAME_PREFIX'] || 'accumulo-salt'
+  os               = ENV['VIRT_OS'] || 'centos'
   
   if supported_dists.include?(hadoop_dist_raw)
     hadoop_dist = hadoop_dist_raw
@@ -55,11 +56,14 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.synced_folder download_folder, "/downloads"
-  config.vm.box = "centos6_node_salt"
-  #config.vm.box = "ubuntu_node_salt"
-  config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt.box"
-  #config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/ubuntu-salt.box"
-  config.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh', :args => "#{datanode_count}"
+  if os.eql?('ubuntu')
+    config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/ubuntu-salt.box"
+    config.vm.box = "ubuntu_node_salt"
+  else
+    config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt.box"
+    config.vm.box = "centos6_node_salt"
+  end
+  config.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh', :args => "#{datanode_count} #{os}"
 
   node_list.each do |nodename|
     config.vm.define nodename do |n|

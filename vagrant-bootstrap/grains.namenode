@@ -10,4 +10,5 @@ roles:
   - hadoop_master
   - accumulo_master
   - development
+  - zookeeper
 
