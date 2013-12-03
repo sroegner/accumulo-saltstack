@@ -3,6 +3,8 @@ cd $(dirname $0)
 WS=$(pwd)
 SCHEMA=$(basename $WS)
 COMMAND=${1:-RUN}
+REMOTE_USER=ec2-user
+[ "${SCHEMA}" == ubuntu ] && REMOTE_USER=ubuntu
 
 SALT_CLOUD_KEY_PATH=${SALT_CLOUD_KEY_PATH:-/etc/salt/jenkins-key.pem}
 [ ! -f "${SALT_CLOUD_KEY_PATH}" ] && echo "ERROR: cannot open private_key file ${SALT_CLOUD_KEY_PATH}" && exit 3
@@ -12,7 +14,7 @@ SSH_OPTS="-t -t -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oCont
 STATUS=${WS}/status-${N}.yaml
 
 LOG="${WS}/prov-$(date '+%d%m%Y.%H%M%S').log"
-rm -v rm prov*log
+rm -vf prov*log
 
 msg() {
   echo "$BUILD_ID [ $(date) ] === ${1}" | tee -a ${LOG}
@@ -86,9 +88,9 @@ msg "The ip address of the first slave node appears to be ${SLAVE}"
 msg "Sleep a moment ..."
 sleep 30
 msg "Checking a pillar"
-sudo ssh $SSH_OPTS ubuntu@${MASTER} 'sudo salt \* pillar.get mvn' 2>&1 | tee -a $LOG
+sudo ssh $SSH_OPTS ${REMOTE_USER}@${MASTER} 'sudo salt \* pillar.get mvn' 2>&1 | tee -a $LOG
 msg "Listing cached remotes - there should be some hashes here:"
-sudo ssh $SSH_OPTS ubuntu@${MASTER} 'ls /var/cache/salt/master/gitfs /var/cache/salt/master/pillar*/0'
+sudo ssh $SSH_OPTS ${REMOTE_USER}@${MASTER} 'ls /var/cache/salt/master/gitfs /var/cache/salt/master/pillar*/0'
 msg "Provision the cluster now ... this will take a couple minutes"
-sudo ssh $SSH_OPTS ubuntu@${MASTER} 'sudo salt \* state.highstate' 
+sudo ssh $SSH_OPTS ${REMOTE_USER}@${MASTER} 'sudo salt \* state.highstate' 
 
