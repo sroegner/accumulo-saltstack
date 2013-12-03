@@ -11,11 +11,15 @@ accumulo-saltmaster-amz:
   make_master: True
   sync_after_install: all
   grains:
+    accumulo_profile: 1GB
     roles:
       - hadoop_master
       - accumulo_master
+      - development
+      - monitor
+      - zookeeper
     hdfs_data_disks:
-      - /data1
+      - /media/ephemeral0
   master:
     user: root
     log_level: info
@@ -37,6 +41,9 @@ accumulo-saltmaster-amz:
       - https://github.com/accumulo/mvn-formula.git
     ext_pillar:
       - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
+  block_device_mappings:
+    - DeviceName: /dev/sdb
+      VirtualName: ephemeral0
 
 accumulo-slave-amz:
   provider: accumulo-integration-amazon
@@ -47,9 +54,13 @@ accumulo-slave-amz:
   make_master: False
   sync_after_install: all
   grains:
+    accumulo_profile: 1GB
     roles:
       - hadoop_slave
       - accumulo_slave
     hdfs_data_disks:
-      - /data1
-      - /data2
+      - /media/ephemeral0
+  block_device_mappings:
+    - DeviceName: /dev/sdb
+      VirtualName: ephemeral0
+
