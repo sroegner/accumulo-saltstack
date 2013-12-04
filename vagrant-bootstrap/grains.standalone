@@ -5,11 +5,12 @@ mapred_data_disks:
   - /data1
 
 roles:
+  - standalone
   - hadoop_master
   - accumulo_master
   - hadoop_slave
   - accumulo_slave
-  - standalone
+  - accumulo_proxy
   - zookeeper
 
 hadoop_version: hdp-2.2.0

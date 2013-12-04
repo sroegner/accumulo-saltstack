@@ -11,6 +11,7 @@ base:
     - hadoop.yarn
     - accumulo
     - accumulo.server
+    - accumulo.proxy
 
   'roles:zookeeper':
     - match: grain

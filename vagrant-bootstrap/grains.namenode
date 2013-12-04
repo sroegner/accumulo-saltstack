@@ -9,6 +9,7 @@ mapred_data_disks:
 roles:
   - hadoop_master
   - accumulo_master
+  - accumulo_proxy
   - development
   - zookeeper
 
