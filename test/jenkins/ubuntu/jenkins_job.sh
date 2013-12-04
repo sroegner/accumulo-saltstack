@@ -85,6 +85,12 @@ msg "The ip address of the first slave node appears to be ${SLAVE}"
 
 [ "" == "$MASTER" ] && msg "Cannot determine the master IP - giving up" && exit 4 
 [ "" == "$SLAVE" ] && msg "Cannot determine the slave IP - giving up" && exit 4 
+
+TEST_PROPERTIES_FILE=${TEST_PROPERTIES_FILE:-${WS}/../ci.properties}
+echo "ci.accumulo.master=${MASTER}" > ${TEST_PROPERTIES_FILE}
+echo "ci.accumulo.slave=${SLAVE}" >> ${TEST_PROPERTIES_FILE}
+echo "" >> ${TEST_PROPERTIES_FILE}
+
 msg "Sleep a moment ..."
 sleep 30
 msg "Checking a pillar"
