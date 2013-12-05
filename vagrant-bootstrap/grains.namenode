@@ -12,4 +12,5 @@ roles:
   - accumulo_proxy
   - development
   - zookeeper
+  - monitor_master
 

@@ -12,4 +12,5 @@ roles:
   - accumulo_slave
   - accumulo_proxy
   - zookeeper
+  - monitor_master
 
