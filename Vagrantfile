@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
       n.vm.network :private_network, ip:"#{host_list[nodename]}", :adapter => 2
       n.vm.provider "virtualbox" do |v|
         if nodename.eql?("namenode")
-          v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "3072", '--cpus', "1" ]
+          v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "4096", '--cpus', "1" ]
         else
           v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "2048", '--cpus', "1" ]
         end
