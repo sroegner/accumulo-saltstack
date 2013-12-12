@@ -1,6 +1,5 @@
 base:
   '*':
-    - tomcat
     - ec2
     - ntp.server
     - sun-java
@@ -14,6 +13,7 @@ base:
     - accumulo
     - accumulo.server
     - accumulo.proxy
+    - accumulo.jmxtrans
     - jmxtrans
 
   'roles:zookeeper':
@@ -28,4 +28,8 @@ base:
   'roles:monitor_master':
     - match: grain
     - graphite
+
+  'roles:monitor':
+    - match: grain
+    - graphite.diamond
 

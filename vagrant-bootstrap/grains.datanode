@@ -11,4 +11,6 @@ mapred_data_disks:
 roles:
   - hadoop_slave
   - accumulo_slave
+  - monitor
 
+graphite_host: namenode.accumulo.local

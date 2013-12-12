@@ -13,4 +13,7 @@ roles:
   - accumulo_proxy
   - zookeeper
   - monitor_master
+  - monitor
+
+graphite_host: namenode.accumulo.local
 
