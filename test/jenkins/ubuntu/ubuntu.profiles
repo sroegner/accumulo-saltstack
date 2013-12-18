@@ -15,8 +15,6 @@ accumulo-saltmaster-ubuntu:
     roles:
       - hadoop_master
       - accumulo_master
-      - development
-      - monitor
       - zookeeper
     hdfs_data_disks:
       - /media/ephemeral0
@@ -39,6 +37,8 @@ accumulo-saltmaster-ubuntu:
       - https://github.com/accumulo/hadoop-formula.git
       - https://github.com/accumulo/sun-java-formula.git
       - https://github.com/accumulo/mvn-formula.git
+      - https://github.com/accumulo/graphite-formula.git
+      - https://github.com/accumulo/jmxtrans-formula.git
     ext_pillar:
       - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
   block_device_mappings:
