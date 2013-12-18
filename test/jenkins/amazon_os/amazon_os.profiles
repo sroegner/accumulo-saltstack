@@ -18,6 +18,9 @@ accumulo-saltmaster-amz:
       - zookeeper
     hdfs_data_disks:
       - /media/ephemeral0
+  minion:
+    providers:
+      pkg: yumpkg5
   master:
     user: root
     log_level: info
@@ -53,6 +56,9 @@ accumulo-slave-amz:
   display_ssh_output: False
   make_master: False
   sync_after_install: all
+  minion:
+    providers:
+      pkg: yumpkg5
   grains:
     accumulo_profile: 1GB
     roles:
