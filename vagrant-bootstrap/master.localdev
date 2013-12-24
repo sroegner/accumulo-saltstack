@@ -9,6 +9,7 @@ fileserver_backend:
 file_roots:
   base:
     - /srv/salt
+    - /srv/hostsfile-formula
     - /srv/hadoop-formula
     - /srv/zookeeper-formula
     - /srv/accumulo-formula
@@ -16,11 +17,9 @@ file_roots:
     - /srv/mvn-formula
     - /srv/graphite-formula
     - /srv/tomcat-formula
+    - /srv/nexus-formula
     - /srv/jmxtrans-formula
 
 gitfs_remotes:
   - https://github.com/saltstack-formulas/ntp-formula.git
-  - https://github.com/saltstack-formulas/hosts-formula.git
 
-#ext_pillar:
-#  - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git

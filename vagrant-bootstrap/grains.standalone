@@ -16,4 +16,11 @@ roles:
   - monitor
 
 graphite_host: namenode.accumulo.local
+hadoop_version: 'hdp-1.3.0'
+accumulo_version: 1.5.1-SNAPSHOT
+accumulo_source: http://10.10.1.131:8000/accumulo-1.5.1-SNAPSHOT-bin-verizon.tar.gz
+accumulo:
+  config:
+    use_ext_security_settings: False
+    loglevel: DEBUG
 

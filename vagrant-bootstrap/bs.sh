@@ -4,7 +4,6 @@ BS=/vagrant/vagrant-bootstrap
 NODE_COUNT=${1:-1}
 OS=${2:-centos}
 
-cp -v ${BS}/hosts /etc/hosts
 cp -v ${BS}/minion /etc/salt/minion
 
 #lokkit -p 22:tcp -p 4505:tcp -p 4506:tcp

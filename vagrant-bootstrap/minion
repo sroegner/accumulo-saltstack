@@ -1,8 +1,9 @@
-master: namenode.accumulo.local
+master: 192.169.111.111
 mine_functions:
   network.interfaces: []
-  network.ip_addrs: []
   test.ping: []
   grains.items: []
+  network.ip_addrs:
+    - eth1
 
 mine_interval: 2
