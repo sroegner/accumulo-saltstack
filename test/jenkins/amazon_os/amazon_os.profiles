@@ -31,8 +31,8 @@ accumulo-saltmaster-amz:
     fileserver_backend:
       - git
     gitfs_remotes:
+      - https://github.com/accumulo/hostsfile-formula.git
       - https://github.com/saltstack-formulas/ntp-formula.git
-      - https://github.com/saltstack-formulas/hosts-formula.git
       - https://github.com/accumulo/accumulo-saltstack.git
       - https://github.com/accumulo/accumulo-demo-formula.git
       - https://github.com/accumulo/accumulo-formula.git
