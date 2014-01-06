@@ -43,4 +43,4 @@ accumulo
 test/jenkins/status*yaml
 target
 *iml
-
+configuration.yaml

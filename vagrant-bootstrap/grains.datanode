@@ -13,4 +13,3 @@ roles:
   - accumulo_slave
   - monitor
 
-graphite_host: namenode.accumulo.local

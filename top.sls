@@ -21,6 +21,7 @@ base:
     - match: compound
     - zookeeper
     - accumulo
+    - accumulo.native
     - accumulo.server
     - accumulo.proxy
     - accumulo.jmxtrans

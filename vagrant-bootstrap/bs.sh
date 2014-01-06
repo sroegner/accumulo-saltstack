@@ -1,10 +1,22 @@
 #!/bin/bash
 
 BS=/vagrant/vagrant-bootstrap
+CONFIG=/vagrant/configuration.yaml
+
+if [ ! -f $CONFIG ]
+then
+  echo "Please provide a configuration.yaml file in the project directory - use configuration.yaml.example as a starting point"
+  echo "After configuration.yaml is in place, please run 'vagrant provision'"
+  exit 5
+fi
+
 NODE_COUNT=${1:-1}
 OS=${2:-centos}
+MINION_ID=${3}
+HOSTNAME=$(echo $MINION_ID|cut -d '.' -f 1)
 
 cp -v ${BS}/minion /etc/salt/minion
+echo ${MINION_ID} > /etc/salt/minion_id
 
 #lokkit -p 22:tcp -p 4505:tcp -p 4506:tcp
 if [ $OS == centos ]
@@ -13,11 +25,9 @@ then
   chkconfig iptables off
 fi
 
-rm -f /etc/salt/minion_id
-
 if [ $NODE_COUNT -gt 0 ]
 then
-  if [ $(hostname -s) == namenode ]
+  if [ $HOSTNAME == namenode ]
   then
     cp ${BS}/grains.namenode /etc/salt/grains
   else
@@ -27,9 +37,12 @@ else
   cp ${BS}/grains.standalone /etc/salt/grains
 fi
 
+echo "# attached configuration.yaml" >> /etc/salt/grains
+cat $CONFIG >> /etc/salt/grains
+
 service salt-minion restart
 
-if [ $(hostname -s) == namenode ]
+if [ $HOSTNAME == namenode ]
 then
   cachedir=/var/cache/salt/master/gitfs
   [ ! -d $cachedir ] && mkdir -p $cachedir

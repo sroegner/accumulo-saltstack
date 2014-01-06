@@ -1,5 +1,6 @@
 # this is a basic setup to get going with salt formulas
-
+# this version assumes that you have the formulas checked out 
+# locally for development and available inside vbox as shared folders
 log_level: info
 
 fileserver_backend:
@@ -22,4 +23,7 @@ file_roots:
 
 gitfs_remotes:
   - https://github.com/saltstack-formulas/ntp-formula.git
+
+ext_pillar:
+  - git: master https://github.com/accumulo/accumulo-saltstack-pillar.git
 

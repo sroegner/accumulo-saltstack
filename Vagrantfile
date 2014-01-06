@@ -60,18 +60,23 @@ Vagrant.configure("2") do |config|
     config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/ubuntu-salt.box"
     config.vm.box = "ubuntu_node_salt"
   else
-    config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt.box"
-    config.vm.box = "centos6_node_salt"
+    config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/centos6min-salt-0.17.4.box"
+    config.vm.box = "centos6_node_salt-0.17.4"
   end
-  config.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh', :args => "#{datanode_count} #{os}"
 
   node_list.each do |nodename|
+    fqdn = "#{nodename}.#{clusterdomain}"
     config.vm.define nodename do |n|
-      n.vm.hostname = "#{nodename}.#{clusterdomain}"
+      # n.vm.hostname = "#{nodename}.#{clusterdomain}"
       n.vm.network :private_network, ip:"#{host_list[nodename]}", :adapter => 2
-      n.vm.provider "virtualbox" do |v|
+      n.vm.provider "virtualbox" do |v, override|
+        override.vm.provision :shell, :path => 'vagrant-bootstrap/bs.sh', :args => "#{datanode_count} #{os} #{fqdn}"
         if nodename.eql?("namenode")
-          v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "4096", '--cpus', "1" ]
+          if is_singlenode
+            v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "6144", '--cpus', "2" ]
+          else
+            v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "3072", '--cpus', "2" ]
+          end
         else
           v.customize [ 'modifyvm', :id, '--name', "#{vmname_prefix}-#{nodename}", '--memory', "2048", '--cpus', "1" ]
         end

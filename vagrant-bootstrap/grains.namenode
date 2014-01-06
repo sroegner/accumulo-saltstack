@@ -15,4 +15,3 @@ roles:
   - monitor_master
   - monitor
 
-graphite_host: namenode.accumulo.local
