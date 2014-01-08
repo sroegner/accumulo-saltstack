@@ -11,7 +11,6 @@ accumulo-saltmaster-ubuntu:
   make_master: True
   sync_after_install: all
   grains:
-    accumulo_profile: 1GB
     roles:
       - hadoop_master
       - accumulo_master
@@ -20,7 +19,7 @@ accumulo-saltmaster-ubuntu:
       - /media/ephemeral0
   master:
     user: root
-    log_level: info
+    log_level: debug
     peer:
       .*:
         - test.*
@@ -54,7 +53,6 @@ accumulo-slave-ubuntu:
   make_master: False
   sync_after_install: all
   grains:
-    accumulo_profile: 1GB
     roles:
       - hadoop_slave
       - accumulo_slave

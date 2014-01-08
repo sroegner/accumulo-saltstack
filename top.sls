@@ -1,6 +1,7 @@
 base:
   '*':
     - hostsfile
+    - hostsfile.hostname
     - ntp.server
 
   'G@roles:hadoop_master or G@roles:hadoop_slave or G@roles:accumulo_master or G@roles:accumulo_slave':
@@ -34,7 +35,8 @@ base:
   'roles:development':
     - match: grain
     - mvn
-    - accumulo.development
+    - accumulo.development.sources
+    - accumulo.development.testsuite
 
   'roles:monitor_master':
     - match: grain

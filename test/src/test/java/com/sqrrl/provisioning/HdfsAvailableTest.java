@@ -51,7 +51,19 @@ public class HdfsAvailableTest {
             Boolean has_root = fileSystem.exists(path);
             Assert.assertTrue(has_root);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testTempdirAvailable() {
+        // will only exist after mapreduce/yarn were setup correctly
+        Path path = new Path("/tmp");
+        try {
+            Boolean has_tmp = fileSystem.exists(path);
+            Assert.assertTrue(has_tmp);
+        } catch (IOException e) {
+            e.printStackTrace(); 
         }
     }
 
