@@ -4,7 +4,7 @@ java:
     # source_url: http://<your.server.here>/jdk-7u45-linux-x64.tar.gz
     version_name: jdk1.7.0_45
 
-# currently supported values: ['apache-1.2.1', 'apache-2.2.0', 'hdp-1.3.0', 'hdp-2.2.0']
+# currently supported values: ['apache-1.2.1', 'apache-2.2.0', 'hdp-1.3.0', 'hdp-2.2.0', 'cdh-4.5.0', 'cdh-4.5.0-mr1']
 hadoop:
   version: hdp-1.3.0
 
