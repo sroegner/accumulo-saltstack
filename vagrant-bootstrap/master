@@ -16,11 +16,10 @@ gitfs_remotes:
   - https://github.com/saltstack-formulas/hostsfile-formula.git
   - https://github.com/saltstack-formulas/zookeeper-formula.git
   - https://github.com/saltstack-formulas/hadoop-formula.git
+  - https://github.com/saltstack-formulas/accumulo-formula.git
   - https://github.com/accumulo/accumulo-demo-formula.git
-  - https://github.com/accumulo/accumulo-formula.git
   - https://github.com/accumulo/graphite-formula.git
   - https://github.com/accumulo/mvn-formula.git
-  - https://github.com/accumulo/graphite-formula.git
   - https://github.com/accumulo/jmxtrans-formula.git
 
 ext_pillar:
