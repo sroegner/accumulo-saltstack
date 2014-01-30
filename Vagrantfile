@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   vmname_prefix    = ENV['VMNAME_PREFIX'] || 'accumulo-salt'
   os               = ENV['VIRT_OS'] || 'centos'
   is_singlenode    = datanode_count.eql?('0')
-  baseboxes        = { 'centos' => 'centos6min-salt-0.17.4', 'ubuntu' => 'ubuntu-salt-0.17.4' }
+  baseboxes        = { 'centos' => 'centos6min-salt-0.17.5', 'ubuntu' => 'ubuntu-salt-0.17.5' }
   node_list        = "1".upto(datanode_count).collect {|c| "dnode#{c}"} + ["namenode"]
 
   config.vm.synced_folder m2_folder, "/mavenrepo" unless m2_folder.nil?
@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
 
   node_list.each_with_index do |nodename, idx|
     fqdn = "#{nodename}.#{clusterdomain}"
-    ip = nodename.eql?('namenode') ? '192.169.111.111' : "192.169.111.10#{idx}"
+    ip = nodename.eql?('namenode') ? '192.169.111.211' : "192.169.111.20#{idx}"
     config.vm.define nodename do |n|
       n.vm.network :private_network, ip:"#{ip}", :adapter => 2
       n.vm.provider "virtualbox" do |v, override|
