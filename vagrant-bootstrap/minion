@@ -1,4 +1,4 @@
-master: 192.169.111.111
+master: 192.169.111.211
 mine_functions:
   network.interfaces: []
   test.ping: []
