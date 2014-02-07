@@ -15,7 +15,7 @@ file_roots:
     - /srv/zookeeper-formula
     - /srv/accumulo-formula
     - /srv/sun-java-formula
-    - /srv/mvn-formula
+    - /srv/maven-formula
     - /srv/graphite-formula
     - /srv/tomcat-formula
     - /srv/nexus-formula

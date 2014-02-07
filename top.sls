@@ -35,7 +35,7 @@ base:
 
   'roles:development':
     - match: grain
-    - mvn
+    - maven
     - accumulo.development.sources
     - accumulo.development.testsuite
 
