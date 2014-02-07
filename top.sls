@@ -27,6 +27,7 @@ base:
     - accumulo.server
     - accumulo.proxy
     - accumulo.jmxtrans
+    - accumulo.development.testsuite
 
   'roles:zookeeper':
     - match: grain
@@ -37,7 +38,6 @@ base:
     - match: grain
     - maven
     - accumulo.development.sources
-    - accumulo.development.testsuite
 
   'roles:monitor_master':
     - match: grain
