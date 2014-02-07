@@ -1,6 +1,8 @@
 # this is a basic setup to get going with salt formulas
 
-log_level: info
+timeout: 60
+loop_interval: 15
+log_level: debug
 
 fileserver_backend:
   - roots

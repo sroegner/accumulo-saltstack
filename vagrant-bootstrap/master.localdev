@@ -1,7 +1,10 @@
 # this is a basic setup to get going with salt formulas
 # this version assumes that you have the formulas checked out 
 # locally for development and available inside vbox as shared folders
-log_level: info
+
+timeout: 60
+loop_interval: 15
+log_level: debug
 
 fileserver_backend:
   - roots
