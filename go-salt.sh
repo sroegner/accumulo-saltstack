@@ -1,2 +1,2 @@
-vagrant ssh namenode -c /vagrant/vagrant-bootstrap/highstate-singlenode.sh
+vagrant ssh namenode -c /vagrant/vagrant-bootstrap/overstate.sh
 
