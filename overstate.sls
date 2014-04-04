@@ -52,6 +52,7 @@ accumulo_service_init:
         - zookeeper_service
     sls:
         - accumulo.jmxtrans
+        - accumulo.server.initialize
         - accumulo.server
         - accumulo.proxy
         - accumulo.development.testsuite

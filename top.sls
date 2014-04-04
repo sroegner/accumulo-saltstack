@@ -19,20 +19,21 @@ base:
     - hadoop.yarn
     - hadoop.jmxtrans
 
+  'roles:zookeeper':
+    - match: grain
+    - zookeeper.server
+    - zookeeper.jmxtrans
+
   'G@roles:accumulo_master or G@roles:accumulo_slave':
     - match: compound
     - zookeeper
     - accumulo
     - accumulo.native
+    - accumulo.server.initialize
     - accumulo.server
     - accumulo.proxy
     - accumulo.jmxtrans
     - accumulo.development.testsuite
-
-  'roles:zookeeper':
-    - match: grain
-    - zookeeper.server
-    - zookeeper.jmxtrans
 
   'roles:development':
     - match: grain

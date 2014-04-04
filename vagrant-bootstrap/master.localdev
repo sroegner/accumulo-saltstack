@@ -20,7 +20,6 @@ file_roots:
     - /srv/sun-java-formula
     - /srv/maven-formula
     - /srv/graphite-formula
-    - /srv/tomcat-formula
     - /srv/nexus-formula
     - /srv/jmxtrans-formula
 
