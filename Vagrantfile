@@ -9,9 +9,9 @@ Vagrant.configure("2") do |config|
   clusterdomain    = "accumulo.local"
   datanode_count   = ENV['NODE_COUNT'] || '0'
   vmname_prefix    = ENV['VMNAME_PREFIX'] || 'accumulo-salt'
-  os               = ENV['VIRT_OS'] || 'centos'
+  os               = 'centos'
   is_singlenode    = datanode_count.eql?('0')
-  baseboxes        = { 'centos' => 'centos6min-salt-0.17.5', 'ubuntu' => 'ubuntu-salt-0.17.5' }
+  baseboxes        = { 'centos' => 'centos6-salt-2014.7.1' }
   node_list        = "1".upto(datanode_count).collect {|c| "dnode#{c}"} + ["namenode"]
 
   config.vm.synced_folder m2_folder, "/mavenrepo" unless m2_folder.nil?

@@ -1,2 +1,2 @@
-vagrant ssh namenode -c /vagrant/vagrant-bootstrap/overstate.sh
+vagrant ssh namenode -c /vagrant/vagrant-bootstrap/orchestrate.sh
 

@@ -1,10 +1,39 @@
+# avoid collisions with system jdks
+java_home: /usr/local/java
+
+# only use fqdns in /etc/hosts
+hostsfile:
+  generate_shortname: False
+
 java:
-    # for this to work you will need to download and then place the jdk archive in the accumulo-saltstack project directory
-    source_url: file:///vagrant/jdk-7u45-linux-x64.tar.gz
+    # for the cached variants to work you will need to download and then place the jdk archive in the referenced locations
+    # source_url: file:///vagrant/jdk-7u45-linux-x64.tar.gz
     # source_url: http://<your.server.here>/jdk-7u45-linux-x64.tar.gz
     version_name: jdk1.7.0_45
+    source_url: 'http://download.oracle.com/otn-pub/java/jdk/7u45-b18/jdk-7u45-linux-x64.tar.gz'
 
 # currently supported values: ['apache-1.2.1', 'apache-2.2.0', 'hdp-1.3.0', 'hdp-2.2.0', 'cdh-4.5.0', 'cdh-4.5.0-mr1']
 hadoop:
-  version: hdp-1.3.0
+  version: hdp-2.4.0
+
+hdfs:
+  config:
+    hdfs-site:
+      dfs.durable.sync:
+        value: 'true'
+      dfs.datanode.synconclose:
+        value: 'true'
+
+accumulo:
+  version: 1.6.1
+  config:
+    memory_profile: 1GB
+
+zookeeper:
+  version: 3.4.6
+  config:
+    max_perm_size: 128
+    max_heap_size: 768
+    initial_heap_size: 768
+    max_client_cnxns: 150
 

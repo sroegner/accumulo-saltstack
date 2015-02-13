@@ -3,6 +3,7 @@
 timeout: 60
 loop_interval: 15
 log_level: debug
+gitfs_provider: gitpython
 
 fileserver_backend:
   - roots
