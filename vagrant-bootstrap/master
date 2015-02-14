@@ -4,6 +4,7 @@ timeout: 60
 loop_interval: 15
 log_level: debug
 gitfs_provider: gitpython
+state_output: mixed
 
 fileserver_backend:
   - roots
