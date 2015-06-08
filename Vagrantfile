@@ -11,7 +11,6 @@ Vagrant.configure("2") do |config|
   vmname_prefix    = ENV['VMNAME_PREFIX'] || 'accumulo-salt'
   os               = 'centos'
   is_singlenode    = datanode_count.eql?('0')
-  baseboxes        = { 'centos' => 'centos6-salt-2014.7.1' }
   node_list        = "1".upto(datanode_count).collect {|c| "dnode#{c}"} + ["namenode"]
 
   config.vm.synced_folder m2_folder, "/mavenrepo" unless m2_folder.nil?
@@ -27,9 +26,8 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  box = baseboxes[os] || baseboxes['centos']
-  config.vm.box_url = "http://sroegner-vagrant.s3.amazonaws.com/#{box}.box"
-  config.vm.box = "#{box}"
+  config.vm.box_url = "https://s3.amazonaws.com/sroegner-vagrant/salt-latest.box"
+  config.vm.box = "salt-accumulo"
 
   node_list.each_with_index do |nodename, idx|
     fqdn = "#{nodename}.#{clusterdomain}"

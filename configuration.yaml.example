@@ -14,7 +14,7 @@ java:
 
 # currently supported values: ['apache-1.2.1', 'apache-2.2.0', 'hdp-1.3.0', 'hdp-2.2.0', 'cdh-4.5.0', 'cdh-4.5.0-mr1']
 hadoop:
-  version: hdp-2.4.0
+  version: hdp-2.6.0
 
 hdfs:
   config:
@@ -25,7 +25,7 @@ hdfs:
         value: 'true'
 
 accumulo:
-  version: 1.6.1
+  version: 1.7.0
   config:
     memory_profile: 1GB
 
